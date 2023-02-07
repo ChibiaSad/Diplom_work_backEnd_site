@@ -40,14 +40,14 @@ public class AdsApiController implements AdsApi {
             try {
                 return new ResponseEntity<Ads>(objectMapper.readValue("{\n  \"image\" : [ \"image\", \"image\" ],\n  " +
                         "\"author\" : 6,\n  \"price\" : 5,\n  \"pk\" : 1,\n  \"title\" : \"title\"\n}", Ads.class),
-                        HttpStatus.NOT_IMPLEMENTED);
+                        HttpStatus.CREATED);
             } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<Ads>(HttpStatus.INTERNAL_SERVER_ERROR);
+                log.error("Не получилось сериализовать ответ для типа application/json", e);
+                return new ResponseEntity<Ads>(HttpStatus.FORBIDDEN);
             }
         }
 
-        return new ResponseEntity<Ads>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<Ads>(HttpStatus.NOT_FOUND);
     }
 
     public ResponseEntity<Comment> addComments(@Parameter(in = ParameterIn.PATH, description = "", required = true,
@@ -57,21 +57,21 @@ public class AdsApiController implements AdsApi {
         if (accept != null && accept.contains("application/json")) {
             try {
                 return new ResponseEntity<Comment>(objectMapper.readValue("{\n  \"createdAt\" : \"createdAt\",\n  " +
-                        "\"author\" : 6,\n  \"pk\" : 1,\n  \"text\" : \"text\"\n}", Comment.class), HttpStatus.NOT_IMPLEMENTED);
+                        "\"author\" : 6,\n  \"pk\" : 1,\n  \"text\" : \"text\"\n}", Comment.class), HttpStatus.OK);
             } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<Comment>(HttpStatus.INTERNAL_SERVER_ERROR);
+                log.error("Не получилось сериализовать ответ для типа application/json", e);
+                return new ResponseEntity<Comment>(HttpStatus.FORBIDDEN);
             }
         }
 
-        return new ResponseEntity<Comment>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<Comment>(HttpStatus.NOT_FOUND);
     }
 
     public ResponseEntity<Void> deleteComments(@Parameter(in = ParameterIn.PATH, description = "", required = true,
             schema = @Schema()) @PathVariable("ad_pk") String adPk, @Parameter(in = ParameterIn.PATH, description = "",
             required = true, schema = @Schema()) @PathVariable("id") Integer id) {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
     }
 
     public ResponseEntity<ResponseWrapperAds> getALLAds() {
@@ -82,14 +82,14 @@ public class AdsApiController implements AdsApi {
                         "\"results\" : [ {\n    \"image\" : [ \"image\", \"image\" ],\n    \"author\" : 6,\n    " +
                         "\"price\" : 5,\n    \"pk\" : 1,\n    \"title\" : \"title\"\n  }, {\n    \"image\" : [ \"image\", " +
                         "\"image\" ],\n    \"author\" : 6,\n    \"price\" : 5,\n    \"pk\" : 1,\n    \"title\" : " +
-                        "\"title\"\n  } ]\n}", ResponseWrapperAds.class), HttpStatus.NOT_IMPLEMENTED);
+                        "\"title\"\n  } ]\n}", ResponseWrapperAds.class), HttpStatus.OK);
             } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
+                log.error("Не получилось сериализовать ответ для типа application/json", e);
                 return new ResponseEntity<ResponseWrapperAds>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
 
-        return new ResponseEntity<ResponseWrapperAds>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<ResponseWrapperAds>(HttpStatus.NOT_FOUND);
     }
 
     public ResponseEntity<FullAds> getAds(@Parameter(in = ParameterIn.PATH, description = "", required = true,
@@ -102,7 +102,7 @@ public class AdsApiController implements AdsApi {
                         " \"phone\" : \"phone\",\n  \"price\" : 6,\n  \"description\" : \"description\",\n  \"pk\" : 0," +
                         "\n  \"title\" : \"title\",\n  \"email\" : \"email\"\n}", FullAds.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
+                log.error("Не получилось сериализовать ответ для типа application/json", e);
                 return new ResponseEntity<FullAds>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
@@ -133,7 +133,7 @@ public class AdsApiController implements AdsApi {
                                 "  \"author\" : 6,\n    \"price\" : 5,\n    \"pk\" : 1,\n    \"title\" : \"title\"\n  } ]\n}",
                         ResponseWrapperAds.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
+                log.error("Не получилось сериализовать ответ для типа application/json", e);
                 return new ResponseEntity<ResponseWrapperAds>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
@@ -151,7 +151,7 @@ public class AdsApiController implements AdsApi {
                         "  \"text\" : \"text\"\n  }, {\n    \"createdAt\" : \"createdAt\",\n    \"author\" : 6,\n  " +
                         "  \"pk\" : 1,\n    \"text\" : \"text\"\n  } ]\n}", ResponseWrapperComment.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
+                log.error("Не получилось сериализовать ответ для типа application/json", e);
                 return new ResponseEntity<ResponseWrapperComment>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
@@ -168,7 +168,7 @@ public class AdsApiController implements AdsApi {
                 return new ResponseEntity<Comment>(objectMapper.readValue("{\n  \"createdAt\" : \"createdAt\",\n " +
                         " \"author\" : 6,\n  \"pk\" : 1,\n  \"text\" : \"text\"\n}", Comment.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
+                log.error("Не получилось сериализовать ответ для типа application/json", e);
                 return new ResponseEntity<Comment>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
@@ -191,7 +191,7 @@ public class AdsApiController implements AdsApi {
                 return new ResponseEntity<Ads>(objectMapper.readValue("{\n  \"image\" : [ \"image\", \"image\" ],\n " +
                         " \"author\" : 6,\n  \"price\" : 5,\n  \"pk\" : 1,\n  \"title\" : \"title\"\n}", Ads.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
+                log.error("Не получилось сериализовать ответ для типа application/json", e);
                 return new ResponseEntity<Ads>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
@@ -209,7 +209,7 @@ public class AdsApiController implements AdsApi {
                 return new ResponseEntity<Comment>(objectMapper.readValue("{\n  \"createdAt\" : \"createdAt\",\n " +
                         " \"author\" : 6,\n  \"pk\" : 1,\n  \"text\" : \"text\"\n}", Comment.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
+                log.error("Не получилось сериализовать ответ для типа application/json", e);
                 return new ResponseEntity<Comment>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
