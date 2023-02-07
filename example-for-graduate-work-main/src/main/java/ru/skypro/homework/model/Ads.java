@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.Objects;
 
-public class Announcements {
+public class Ads {
 
     @JsonProperty("author")
     private int author;
@@ -22,7 +22,7 @@ public class Announcements {
     @JsonProperty("title")
     private String title;
 
-    public Announcements(int author, String image, int pk, int price, String title) {
+    public Ads(int author, String image, int pk, int price, String title) {
         this.author = author;
         this.image = image;
         this.pk = pk;
@@ -100,7 +100,7 @@ public class Announcements {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Announcements that = (Announcements) o;
+        Ads that = (Ads) o;
         return author == that.author && pk == that.pk && price == that.price && Objects.equals(image, that.image) && Objects.equals(title, that.title);
     }
 
