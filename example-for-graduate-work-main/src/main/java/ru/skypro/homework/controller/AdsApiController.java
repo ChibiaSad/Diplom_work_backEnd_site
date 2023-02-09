@@ -1,11 +1,8 @@
 package ru.skypro.homework.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
-import io.swagger.v3.oas.annotations.media.Schema;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,29 +10,17 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.model.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.io.IOException;
 
 @CrossOrigin(value = "http://localhost:3000")
 @RestController
+@Slf4j
+@RequiredArgsConstructor
 public class AdsApiController implements AdsApi {
-
-    private static final Logger log = LoggerFactory.getLogger(AdsApiController.class);
-
     private final ObjectMapper objectMapper;
-
     private final HttpServletRequest request;
 
-    @org.springframework.beans.factory.annotation.Autowired
-    public AdsApiController(ObjectMapper objectMapper, HttpServletRequest request) {
-        this.objectMapper = objectMapper;
-        this.request = request;
-    }
-
-    public ResponseEntity<Ads> addAds(@Parameter(in = ParameterIn.DEFAULT, description = "", schema = @Schema())
-                                      @RequestParam(value = "properties", required = false)
-                                      CreateAds properties, @Parameter(description = "file detail")
-                                      @Valid @RequestPart("file") MultipartFile image) {
+    public ResponseEntity<Ads> addAds(CreateAds properties, MultipartFile image) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
@@ -51,9 +36,7 @@ public class AdsApiController implements AdsApi {
         return new ResponseEntity<Ads>(HttpStatus.NOT_FOUND);
     }
 
-    public ResponseEntity<Comment> addComments(@Parameter(in = ParameterIn.PATH, description = "", required = true,
-            schema = @Schema()) @PathVariable("ad_pk") String adPk, @Parameter(in = ParameterIn.DEFAULT, description = "",
-            required = true, schema = @Schema()) @Valid @RequestBody Comment body) {
+    public ResponseEntity<Comment> addComments(String adPk, Comment body) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
@@ -68,9 +51,7 @@ public class AdsApiController implements AdsApi {
         return new ResponseEntity<Comment>(HttpStatus.NOT_FOUND);
     }
 
-    public ResponseEntity<Void> deleteComments(@Parameter(in = ParameterIn.PATH, description = "", required = true,
-            schema = @Schema()) @PathVariable("ad_pk") String adPk, @Parameter(in = ParameterIn.PATH, description = "",
-            required = true, schema = @Schema()) @PathVariable("id") Integer id) {
+    public ResponseEntity<Void> deleteComments(String adPk, Integer id) {
         String accept = request.getHeader("Accept");
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
     }
@@ -93,8 +74,7 @@ public class AdsApiController implements AdsApi {
         return new ResponseEntity<ResponseWrapperAds>(HttpStatus.NOT_FOUND);
     }
 
-    public ResponseEntity<FullAds> getAds(@Parameter(in = ParameterIn.PATH, description = "", required = true,
-            schema = @Schema()) @PathVariable("id") Integer id) {
+    public ResponseEntity<FullAds> getAds(Integer id) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
@@ -111,20 +91,8 @@ public class AdsApiController implements AdsApi {
         return new ResponseEntity<FullAds>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<ResponseWrapperAds> getAdsMeUsingGET(@Parameter(in = ParameterIn.QUERY, description = "",
-            schema = @Schema()) @Valid @RequestParam(value = "authenticated", required = false) Boolean authenticated,
-                                                               @Parameter(in = ParameterIn.QUERY, description = "",
-                                                                       schema = @Schema()) @Valid
-                                                               @RequestParam(value = "authorities[0].authority",
-                                                                       required = false) String authorities0Authority,
-                                                               @Parameter(in = ParameterIn.QUERY, description = "",
-                                                                       schema = @Schema()) @Valid
-                                                               @RequestParam(value = "credentials", required = false)
-                                                               Object credentials, @Parameter(in = ParameterIn.QUERY,
-            description = "", schema = @Schema()) @Valid @RequestParam(value = "details", required = false) Object details,
-                                                               @Parameter(in = ParameterIn.QUERY, description = "",
-                                                                       schema = @Schema()) @Valid
-                                                               @RequestParam(value = "principal", required = false) Object principal) {
+    @Override
+    public ResponseEntity<ResponseWrapperAds> getAdsMeUsingGET() {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
@@ -142,8 +110,7 @@ public class AdsApiController implements AdsApi {
         return new ResponseEntity<ResponseWrapperAds>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<ResponseWrapperComment> getComments(@Parameter(in = ParameterIn.PATH, description = "",
-            required = true, schema = @Schema()) @PathVariable("ad_pk") String adPk) {
+    public ResponseEntity<ResponseWrapperComment> getComments(String adPk) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
@@ -160,9 +127,7 @@ public class AdsApiController implements AdsApi {
         return new ResponseEntity<ResponseWrapperComment>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<Comment> getComments1(@Parameter(in = ParameterIn.PATH, description = "", required = true,
-            schema = @Schema()) @PathVariable("ad_pk") String adPk, @Parameter(in = ParameterIn.PATH, description = "",
-            required = true, schema = @Schema()) @PathVariable("id") Integer id) {
+    public ResponseEntity<Comment> getComments(String adPk, Integer id) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
@@ -177,15 +142,12 @@ public class AdsApiController implements AdsApi {
         return new ResponseEntity<Comment>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<Void> removeAds(@Parameter(in = ParameterIn.PATH, description = "", required = true,
-            schema = @Schema()) @PathVariable("id") Integer id) {
+    public ResponseEntity<Void> removeAds(Integer id) {
         String accept = request.getHeader("Accept");
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<Ads> updateAds(@Parameter(in = ParameterIn.PATH, description = "", required = true,
-            schema = @Schema()) @PathVariable("id") Integer id, @Parameter(in = ParameterIn.DEFAULT, description = "",
-            required = true, schema = @Schema()) @Valid @RequestBody CreateAds body) {
+    public ResponseEntity<Ads> updateAds(Integer id, CreateAds body) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
@@ -200,10 +162,7 @@ public class AdsApiController implements AdsApi {
         return new ResponseEntity<Ads>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<Comment> updateComments(@Parameter(in = ParameterIn.PATH, description = "", required = true,
-            schema = @Schema()) @PathVariable("ad_pk") String adPk, @Parameter(in = ParameterIn.PATH, description = "",
-            required = true, schema = @Schema()) @PathVariable("id") Integer id, @Parameter(in = ParameterIn.DEFAULT,
-            description = "", required = true, schema = @Schema()) @Valid @RequestBody Comment body) {
+    public ResponseEntity<Comment> updateComments(String adPk, Integer id, Comment body) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {

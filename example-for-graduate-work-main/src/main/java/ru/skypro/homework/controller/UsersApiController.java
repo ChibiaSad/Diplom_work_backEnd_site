@@ -1,8 +1,8 @@
 package ru.skypro.homework.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,21 +17,14 @@ import java.io.IOException;
 
 @CrossOrigin(value = "http://localhost:3000")
 @RestController
+@Slf4j
+@RequiredArgsConstructor
 public class UsersApiController implements UsersApi {
-
-    private static final Logger log = LoggerFactory.getLogger(UsersApiController.class);
     private final ObjectMapper objectMapper;
-
     private final HttpServletRequest request;
 
-    public UsersApiController(ObjectMapper objectMapper, HttpServletRequest request) {
-        this.request = request;
-        this.objectMapper = objectMapper;
-    }
-
-
     @Override
-    public ResponseEntity<User> getUser1() {
+    public ResponseEntity<User> getUser() {
         String accept = request.getHeader("Accept");
         return new ResponseEntity<>(HttpStatus.OK);
     }

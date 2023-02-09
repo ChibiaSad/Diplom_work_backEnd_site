@@ -1,17 +1,19 @@
 package ru.skypro.homework.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
+import java.util.List;
 import java.util.Objects;
 
+@Data
 public class Ads {
 
     @JsonProperty("author")
     private int author;
 
     @JsonProperty("image")
-    private String image;
+    private List<String> image;
 
     @JsonProperty("pk")
     private int pk;
@@ -22,77 +24,11 @@ public class Ads {
     @JsonProperty("title")
     private String title;
 
-    public Ads(int author, String image, int pk, int price, String title) {
+    public Ads(int author, List<String> image, int pk, int price, String title) {
         this.author = author;
         this.image = image;
         this.pk = pk;
         this.price = price;
-        this.title = title;
-    }
-
-    /**
-     * Get Author
-     * @return Author
-     **/
-    @Schema(description = "")
-
-    public int getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(int author) {
-        this.author = author;
-    }
-
-    /**
-     * Get Image
-     * @return Image
-     **/
-    @Schema(description = "")
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    /**
-     * Get Pk
-     * @return Pk
-     **/
-    @Schema(description = "")
-    public int getPk() {
-        return pk;
-    }
-
-    public void setPk(int pk) {
-        this.pk = pk;
-    }
-
-    /**
-     * Get Price
-     * @return Price
-     **/
-    @Schema(description = "")
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    /**
-     * Get Title
-     * @return Title
-     **/
-    @Schema(description = "")
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
         this.title = title;
     }
 
