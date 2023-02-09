@@ -31,7 +31,7 @@ public class UsersApiController implements UsersApi {
 
 
     @Override
-    public ResponseEntity<Void> getUser1() {
+    public ResponseEntity<User> getUser1() {
         String accept = request.getHeader("Accept");
         return new ResponseEntity<>(HttpStatus.OK);
     }

@@ -34,7 +34,7 @@ public interface AdsApi {
             method = RequestMethod.POST)
     ResponseEntity<Ads> addAds(@Parameter(in = ParameterIn.DEFAULT, description = "", schema = @Schema())
                                @RequestParam(value = "properties", required = false) CreateAds properties,
-                               @Parameter(description = "file detail") @Valid @RequestPart("file") MultipartFile image);
+                               @Parameter(description = "file detail") @Valid @RequestPart("image") MultipartFile image);
 
 
     @Operation(summary = "addComments", description = "", tags = {"Объявления"})
@@ -108,19 +108,7 @@ public interface AdsApi {
     @RequestMapping(value = "/ads/me",
             produces = {"*/*"},
             method = RequestMethod.GET)
-    ResponseEntity<ResponseWrapperAds> getAdsMeUsingGET(@Parameter(in = ParameterIn.QUERY, description = "",
-            schema = @Schema()) @Valid @RequestParam(value = "authenticated", required = false) Boolean authenticated,
-                                                        @Parameter(in = ParameterIn.QUERY, description = "",
-                                                                schema = @Schema()) @Valid
-                                                        @RequestParam(value = "authorities[0].authority",
-                                                                required = false) String authorities0Authority,
-                                                        @Parameter(in = ParameterIn.QUERY, description = "",
-                                                                schema = @Schema()) @Valid
-                                                        @RequestParam(value = "credentials", required = false)
-                                                        Object credentials, @Parameter(in = ParameterIn.QUERY,
-            description = "", schema = @Schema()) @Valid @RequestParam(value = "details", required = false)
-                                                        Object details, @Parameter(in = ParameterIn.QUERY,
-            description = "", schema = @Schema()) @Valid @RequestParam(value = "principal", required = false) Object principal);
+    ResponseEntity<ResponseWrapperAds> getAdsMeUsingGET();
 
 
     @Operation(summary = "getComments", description = "", tags = {"Объявления"})

@@ -32,7 +32,7 @@ public interface UsersApi {
             @ApiResponse(responseCode = "404", description = "Not Found")})
     @RequestMapping(value = "/users/me",
             method = RequestMethod.GET)
-    ResponseEntity<Void> getUser1();
+    ResponseEntity<User> getUser1();
 
     @Operation(summary = "setPassword", description = "", tags = {"Пользователи"})
     @ApiResponses(value = {

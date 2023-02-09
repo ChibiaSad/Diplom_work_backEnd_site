@@ -35,6 +35,6 @@ public interface ImageApi {
             method = RequestMethod.PATCH)
     ResponseEntity<List<byte[]>> updateImage(@Parameter(in = ParameterIn.PATH, description = "", required=true,
             schema=@Schema()) @PathVariable("id") Integer id, @Parameter(description = "file detail")
-                                             @Valid @RequestPart("file") MultipartFile image);
+                                             @Valid @RequestPart("image") MultipartFile image);
 
 }
