@@ -8,7 +8,6 @@ import java.util.Objects;
 
 @Data
 public class Ads {
-
     @JsonProperty("author")
     private int author;
 

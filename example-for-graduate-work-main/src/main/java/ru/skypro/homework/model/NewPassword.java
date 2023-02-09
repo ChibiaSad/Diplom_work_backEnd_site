@@ -1,62 +1,18 @@
 package ru.skypro.homework.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.Objects;
 
 @Validated
+@Data
 public class NewPassword {
-
     @JsonProperty("currentPassword")
-    private String currentPassword = null;
-
+    private String currentPassword;
     @JsonProperty("newPassword")
-    private String newPassword = null;
-
-    public NewPassword currentPassword(String currentPassword) {
-        this.currentPassword = currentPassword;
-        return this;
-    }
-
-    /**
-     * Get currentPassword
-     * @return currentPassword
-     **/
-    @Schema(description = "")
-
-    public String getCurrentPassword() {
-
-        return currentPassword;
-    }
-
-    public void setCurrentPassword(String currentPassword) {
-
-        this.currentPassword = currentPassword;
-    }
-
-    public NewPassword newPassword(String newPassword) {
-        this.newPassword = newPassword;
-        return this;
-    }
-
-    /**
-     * Get newPassword
-     * @return newPassword
-     **/
-    @Schema(description = "")
-
-    public String getNewPassword() {
-
-        return newPassword;
-    }
-
-    public void setNewPassword(String newPassword) {
-
-        this.newPassword = newPassword;
-    }
-
+    private String newPassword;
 
     @Override
     public boolean equals(java.lang.Object o) {

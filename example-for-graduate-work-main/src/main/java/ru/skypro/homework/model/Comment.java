@@ -1,84 +1,26 @@
 package ru.skypro.homework.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.Objects;
 
 @Validated
+@Data
 public class Comment {
 
     @JsonProperty("author")
-    private Integer author = null;
+    private Integer author;
 
     @JsonProperty("createdAt")
-    private String createdAt = null;
+    private String createdAt;
 
     @JsonProperty("pk")
-    private Integer pk = null;
+    private Integer pk;
 
     @JsonProperty("text")
-    private String text = null;
-
-
-    @Schema(description = "")
-
-    public Integer getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(Integer author) {
-        this.author = author;
-    }
-
-    public Comment createdAt(String createdAt) {
-        this.createdAt = createdAt;
-        return this;
-    }
-
-
-    @Schema(description = "")
-
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Comment pk(Integer pk) {
-        this.pk = pk;
-        return this;
-    }
-
-
-    @Schema(description = "")
-
-    public Integer getPk() {
-        return pk;
-    }
-
-    public void setPk(Integer pk) {
-        this.pk = pk;
-    }
-
-    public Comment text(String text) {
-        this.text = text;
-        return this;
-    }
-
-
-    @Schema(description = "")
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
+    private String text;
 
     @Override
     public boolean equals(Object o) {

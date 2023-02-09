@@ -1,68 +1,17 @@
 package ru.skypro.homework.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
-import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Data
 public class ResponseWrapperComment {
     @JsonProperty("count")
-    private Integer count = null;
-
+    private Integer count;
     @JsonProperty("results")
-    @Valid
-    private List<Comment> results = null;
-
-    public ResponseWrapperComment count(Integer count) {
-        this.count = count;
-        return this;
-    }
-
-    /**
-     * Get count
-     *
-     * @return count
-     **/
-    @Schema(description = "")
-
-    public Integer getCount() {
-        return count;
-    }
-
-    public void setCount(Integer count) {
-        this.count = count;
-    }
-
-    public ResponseWrapperComment results(List<Comment> results) {
-        this.results = results;
-        return this;
-    }
-
-    public ResponseWrapperComment addResultsItem(Comment resultsItem) {
-        if (this.results == null) {
-            this.results = new ArrayList<Comment>();
-        }
-        this.results.add(resultsItem);
-        return this;
-    }
-
-    /**
-     * Get results
-     *
-     * @return results
-     **/
-    @Schema(description = "")
-    @Valid
-    public List<Comment> getResults() {
-        return results;
-    }
-
-    public void setResults(List<Comment> results) {
-        this.results = results;
-    }
+    private List<Comment> results;
 
     @Override
     public boolean equals(Object o) {
