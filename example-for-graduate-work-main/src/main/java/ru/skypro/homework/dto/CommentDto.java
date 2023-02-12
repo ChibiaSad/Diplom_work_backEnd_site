@@ -1,34 +1,32 @@
-package ru.skypro.homework.model;
+package ru.skypro.homework.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 
-import javax.persistence.*;
 import java.util.Objects;
 
-@Entity
-@RequiredArgsConstructor
-public class Comment {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", nullable = false)
-    private Long id;
+@Validated
+@Data
+public class CommentDto {
 
+    @JsonProperty("author")
     private Integer author;
 
+    @JsonProperty("createdAt")
     private String createdAt;
 
+    @JsonProperty("pk")
     private Integer pk;
 
+    @JsonProperty("text")
     private String text;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Comment comment = (Comment) o;
+        CommentDto comment = (CommentDto) o;
         return Objects.equals(author, comment.author) && Objects.equals(createdAt, comment.createdAt) && Objects.equals(pk, comment.pk) && Objects.equals(text, comment.text);
     }
 
@@ -37,4 +35,13 @@ public class Comment {
         return Objects.hash(author, createdAt, pk, text);
     }
 
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "author=" + author +
+                ", createdAt='" + createdAt + '\'' +
+                ", pk=" + pk +
+                ", text='" + text + '\'' +
+                '}';
+    }
 }

@@ -9,8 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ru.skypro.homework.model.NewPassword;
-import ru.skypro.homework.model.User;
+import ru.skypro.homework.dto.NewPasswordDto;
+import ru.skypro.homework.dto.UserDto;
 
 import javax.validation.Valid;
 
@@ -25,7 +25,7 @@ public interface UsersApi {
                     @ApiResponse(responseCode = "404", description = "Not Found")}
     )
     @GetMapping("/me")
-    ResponseEntity<User> getUser();
+    ResponseEntity<UserDto> getUser();
 
     @Operation(summary = "setPassword", tags = {"Пользователи"},
             responses = {
@@ -35,7 +35,7 @@ public interface UsersApi {
                     @ApiResponse(responseCode = "404", description = "Not Found")}
     )
     @PostMapping("/set_password")
-    ResponseEntity<NewPassword> setPassword(@Valid @RequestBody NewPassword body);
+    ResponseEntity<NewPasswordDto> setPassword(@Valid @RequestBody NewPasswordDto body);
 
     @Operation(summary = "updateUser", tags = {"Пользователи"},
             responses = {
@@ -46,15 +46,15 @@ public interface UsersApi {
                     @ApiResponse(responseCode = "404", description = "Not Found")}
     )
     @PatchMapping("/me")
-    ResponseEntity<User> updateUser(@Valid @RequestBody User body);
+    ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto body);
 
     @Operation(summary = "updateUserImage", description = "UpdateUserImage", tags = {"Пользователи"},
             responses = {
                     @ApiResponse(responseCode = "200", description = "OK",
                             content = @Content(
-                                    schema = @Schema(implementation = User.class))),
+                                    schema = @Schema(implementation = UserDto.class))),
                     @ApiResponse(responseCode = "404", description = "Not Found")}
     )
     @PatchMapping(value = "/me/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    ResponseEntity<User> updateUserImage(@Valid @RequestPart MultipartFile image);
+    ResponseEntity<UserDto> updateUserImage(@Valid @RequestPart MultipartFile image);
 }

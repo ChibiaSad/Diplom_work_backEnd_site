@@ -1,35 +1,27 @@
 package ru.skypro.homework.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
-import java.util.List;
+import javax.persistence.*;
 import java.util.Objects;
 
-@Data
+@Entity
+@RequiredArgsConstructor
 public class Ads {
-    @JsonProperty("author")
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "id", nullable = false)
+    private Long id;
+
     private int author;
 
-    @JsonProperty("image")
-    private List<String> image;
+    private String image;
 
-    @JsonProperty("pk")
     private int pk;
 
-    @JsonProperty("price")
     private int price;
 
-    @JsonProperty("title")
     private String title;
-
-    public Ads(int author, List<String> image, int pk, int price, String title) {
-        this.author = author;
-        this.image = image;
-        this.pk = pk;
-        this.price = price;
-        this.title = title;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -44,14 +36,4 @@ public class Ads {
         return Objects.hash(author, image, pk, price, title);
     }
 
-    @Override
-    public String toString() {
-        return "Announcements{" +
-                "author=" + author +
-                ", image='" + image + '\'' +
-                ", pk=" + pk +
-                ", price=" + price +
-                ", title='" + title + '\'' +
-                '}';
-    }
 }

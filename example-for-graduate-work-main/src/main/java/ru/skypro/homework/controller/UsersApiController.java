@@ -8,8 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import ru.skypro.homework.model.NewPassword;
-import ru.skypro.homework.model.User;
+import ru.skypro.homework.dto.NewPasswordDto;
+import ru.skypro.homework.dto.UserDto;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -24,18 +24,18 @@ public class UsersApiController implements UsersApi {
     private final HttpServletRequest request;
 
     @Override
-    public ResponseEntity<User> getUser() {
+    public ResponseEntity<UserDto> getUser() {
         String accept = request.getHeader("Accept");
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<NewPassword> setPassword(NewPassword body) {
+    public ResponseEntity<NewPasswordDto> setPassword(NewPasswordDto body) {
         String accept = request.getHeader("Accept");
         if(accept != null && accept.contains("application/json")){
             try {
                 return new ResponseEntity<>(objectMapper.readValue("{\n  \"newPassword\" : " +
-                        "\"newPassword\",\n  \"currentPassword\" : \"currentPassword\"\n}", NewPassword.class),
+                        "\"newPassword\",\n  \"currentPassword\" : \"currentPassword\"\n}", NewPasswordDto.class),
                         HttpStatus.OK);
             } catch (IOException e) {
                 log.error("Не получилось сериализовать ответ для типа application/json");
@@ -46,14 +46,14 @@ public class UsersApiController implements UsersApi {
     }
 
     @Override
-    public ResponseEntity<User> updateUser(User body) {
+    public ResponseEntity<UserDto> updateUser(UserDto body) {
         String accept = request.getHeader("Accept");
         if(accept != null && accept.contains("application/json")) {
             try {
                 return new ResponseEntity<>(objectMapper.readValue("{\n  \"firstName\" : \"firstName\",\n  \"" +
                                 "lastName\" : \"lastName\",\n  \"image\" : \"image\",\n  \"phone\" : \"phone\",\n  " +
                                 "\"city\" : \"city\",\n  \"regDate\" : \"regDate\",\n  \"id\" : 0,\n  \"email\" : \"email\"\n}",
-                        User.class), HttpStatus.OK);
+                        UserDto.class), HttpStatus.OK);
             } catch (IOException e) {
                 log.error("Не получилось сериализовать ответ для типа application/json");
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -63,14 +63,14 @@ public class UsersApiController implements UsersApi {
     }
 
     @Override
-    public ResponseEntity<User> updateUserImage(MultipartFile image) {
+    public ResponseEntity<UserDto> updateUserImage(MultipartFile image) {
         String accept = request.getHeader("Accept");
         if(accept != null && accept.contains("application/json")) {
             try {
                 return new ResponseEntity<>(objectMapper.readValue("{\n  \"firstName\" : \"firstName\",\n  \"" +
                                 "lastName\" : \"lastName\",\n  \"image\" : \"image\",\n  \"phone\" : \"phone\",\n  " +
                                 "\"city\" : \"city\",\n  \"regDate\" : \"regDate\",\n  \"id\" : 0,\n  \"email\" : \"email\"\n}",
-                        User.class), HttpStatus.OK);
+                        UserDto.class), HttpStatus.OK);
             } catch (IOException e) {
                 log.error("Не получилось сериализовать ответ для типа application/json");
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

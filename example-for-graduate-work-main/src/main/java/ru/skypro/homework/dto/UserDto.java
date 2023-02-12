@@ -1,35 +1,34 @@
-package ru.skypro.homework.model;
+package ru.skypro.homework.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
-import javax.persistence.*;
 import java.util.Objects;
+import lombok.Data;
 
-@Entity
-@RequiredArgsConstructor
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "user_id", nullable = false)
-    private Long user_id;
-
+@Data
+public class UserDto {
+    @JsonProperty("email")
     private String email;
+    @JsonProperty("firstName")
     private String firstName;
-
+    @JsonProperty("id")
     private Integer id;
+    @JsonProperty("lastName")
     private String lastName;
+    @JsonProperty("phone")
     private String phone;
+    @JsonProperty("regDate")
     private String regDate;
+    @JsonProperty("city")
     private String city;
+    @JsonProperty("image")
     private String image;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
+        UserDto user = (UserDto) o;
         return Objects.equals(email, user.email) &&
                 Objects.equals(firstName, user.firstName) &&
                 Objects.equals(id, user.id) &&
@@ -45,5 +44,17 @@ public class User {
         return Objects.hash(email, firstName, id, lastName, phone, regDate, city, image);
     }
 
-
+    @Override
+    public String toString() {
+        return "User{" +
+                "email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", id=" + id +
+                ", lastName='" + lastName + '\'' +
+                ", phone='" + phone + '\'' +
+                ", regDate='" + regDate + '\'' +
+                ", city='" + city + '\'' +
+                ", image='" + image + '\'' +
+                '}';
+    }
 }

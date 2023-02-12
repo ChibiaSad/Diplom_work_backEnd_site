@@ -1,4 +1,4 @@
-package ru.skypro.homework.model;
+package ru.skypro.homework.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -8,7 +8,7 @@ import java.util.Objects;
 
 @Validated
 @Data
-public class NewPassword {
+public class NewPasswordDto {
     @JsonProperty("currentPassword")
     private String currentPassword;
     @JsonProperty("newPassword")
@@ -22,7 +22,7 @@ public class NewPassword {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        NewPassword newPassword = (NewPassword) o;
+        NewPasswordDto newPassword = (NewPasswordDto) o;
         return Objects.equals(this.currentPassword, newPassword.currentPassword) &&
                 Objects.equals(this.newPassword, newPassword.newPassword);
     }

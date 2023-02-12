@@ -1,4 +1,4 @@
-package ru.skypro.homework.model;
+package ru.skypro.homework.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -10,7 +10,7 @@ import java.util.Objects;
 
 @Validated
 @Data
-public class FullAds {
+public class FullAdsDto {
     @JsonProperty("authorFirstName")
     private String authorFirstName;
     @JsonProperty("authorLastName")
@@ -35,7 +35,7 @@ public class FullAds {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        FullAds fullAds = (FullAds) o;
+        FullAdsDto fullAds = (FullAdsDto) o;
         return Objects.equals(authorFirstName, fullAds.authorFirstName) &&
                 Objects.equals(authorLastName, fullAds.authorLastName) &&
                 Objects.equals(description, fullAds.description) &&

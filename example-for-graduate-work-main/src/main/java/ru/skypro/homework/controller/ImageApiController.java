@@ -11,7 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.List;
 
 @CrossOrigin(value = "http://localhost:3000")
 @RestController
@@ -22,11 +21,11 @@ public class ImageApiController implements ImageApi {
     private final HttpServletRequest request;
 
     @Override
-    public ResponseEntity<List<byte[]>> updateImage(Integer id, MultipartFile image) {
+    public ResponseEntity<byte[]> updateImage(Integer id, MultipartFile image) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<List<byte[]>>(objectMapper.readValue("[ \"\", \"\" ]", List.class),
+                return new ResponseEntity<>(objectMapper.readValue("[ \"\", \"\" ]", byte[].class),
                         HttpStatus.OK);
             } catch (IOException e) {
                 log.error("Не получилось сериализовать ответ для типа application/json");

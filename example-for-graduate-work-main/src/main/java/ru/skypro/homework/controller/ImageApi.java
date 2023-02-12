@@ -22,13 +22,13 @@ public interface ImageApi {
             responses = {
                     @ApiResponse(responseCode = "200", description = "OK",
                             content = @Content(
-                                    mediaType = MediaType.APPLICATION_OCTET_STREAM_VALUE,
+                                    mediaType = MediaType.IMAGE_JPEG_VALUE,
                                     array = @ArraySchema(schema = @Schema(implementation = byte[].class)))),
                     @ApiResponse(responseCode = "404", description = "Not Found")}
     )
-    @PatchMapping(value = "/{id}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE,
+    @PatchMapping(value = "/{id}", produces = MediaType.IMAGE_JPEG_VALUE,
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    ResponseEntity<List<byte[]>> updateImage(@PathVariable("id") Integer id,
+    ResponseEntity <byte[]> updateImage(@PathVariable("id") Integer id,
                                              @Valid @RequestPart("image") MultipartFile image);
 
 }
