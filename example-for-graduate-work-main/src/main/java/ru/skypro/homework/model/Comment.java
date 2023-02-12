@@ -1,31 +1,29 @@
 package ru.skypro.homework.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@Table(name = "comment")
 @RequiredArgsConstructor
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", nullable = false)
+    @Column(name = "comment_id", nullable = false)
     private Long id;
 
-    @Column(name = "author")
+    @Column(name = "comment_author")
     private Integer author;
 
-    @Column(name = "id")
+    @Column(name = "comment_created_at")
     private String createdAt;
 
-    @Column(name = "createdAt")
+    @Column(name = "comment_pk")
     private Integer pk;
 
-    @Column(name = "text")
+    @Column(name = "comment_text")
     private String text;
 
     @Override

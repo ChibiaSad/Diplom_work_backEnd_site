@@ -6,26 +6,27 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@Table(name = "ads")
 @RequiredArgsConstructor
 public class Ads {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", nullable = false)
+    @Column(name = "ads_id", nullable = false)
     private Long id;
 
-    @Column(name = "author")
+    @Column(name = "ads_author")
     private int author;
 
-    @Column(name = "image")
+    @Column(name = "ads_image")
     private String image;
 
-    @Column(name = "pk")
+    @Column(name = "ads_pk")
     private int pk;
 
-    @Column(name = "price")
+    @Column(name = "ads_price")
     private int price;
 
-    @Column(name = "title")
+    @Column(name = "ads_title")
     private String title;
 
     @Override

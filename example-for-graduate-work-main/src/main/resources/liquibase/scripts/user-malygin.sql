@@ -12,6 +12,25 @@ CREATE TABLE users
     user_image       VARCHAR         NOT NULL
 );
 
+CREATE TABLE ads
+(
+    ads_id          BIGINT          PRIMARY KEY,
+    ads_author       int4         NOT NULL,
+    ads_pk           int4         NOT NULL,
+    ads_price        int4         NOT NULL,
+    ads_title       VARCHAR         NOT NULL,
+    ads_image       VARCHAR         NOT NULL
+);
+
+CREATE TABLE comment
+(
+    comment_id          BIGINT          PRIMARY KEY,
+    comment_author       int4         NOT NULL,
+    comment_pk           int4         NOT NULL,
+    comment_createdAt       VARCHAR         NOT NULL,
+    comment_text       VARCHAR         NOT NULL
+);
+
 
 
 

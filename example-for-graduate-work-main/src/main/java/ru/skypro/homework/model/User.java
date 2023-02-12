@@ -12,13 +12,13 @@ public class User {
     private Integer id;
     @Column(name = "user_email")
     private String email;
-    @Column(name = "user_firstName")
+    @Column(name = "user_first_name")
     private String firstName;
-    @Column(name = "user_lastName")
+    @Column(name = "user_last_name")
     private String lastName;
     @Column(name = "user_phone")
     private String phone;
-    @Column(name = "user_regDate")
+    @Column(name = "user_reg_date")
     private String regDate;
     @Column(name = "user_city")
     private String city;
