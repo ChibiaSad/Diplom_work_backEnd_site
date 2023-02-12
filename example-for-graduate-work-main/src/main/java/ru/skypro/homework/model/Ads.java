@@ -13,14 +13,19 @@ public class Ads {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Column(name = "author")
     private int author;
 
+    @Column(name = "image")
     private String image;
 
+    @Column(name = "pk")
     private int pk;
 
+    @Column(name = "price")
     private int price;
 
+    @Column(name = "title")
     private String title;
 
     @Override

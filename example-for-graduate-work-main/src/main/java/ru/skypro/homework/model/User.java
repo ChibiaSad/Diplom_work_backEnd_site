@@ -1,28 +1,28 @@
 package ru.skypro.homework.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@RequiredArgsConstructor
+@Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "user_id", nullable = false)
-    private Long user_id;
-
-    private String email;
-    private String firstName;
-
+    @Column(name = "user_id")
     private Integer id;
+    @Column(name = "user_email")
+    private String email;
+    @Column(name = "user_firstName")
+    private String firstName;
+    @Column(name = "user_lastName")
     private String lastName;
+    @Column(name = "user_phone")
     private String phone;
+    @Column(name = "user_regDate")
     private String regDate;
+    @Column(name = "user_city")
     private String city;
+    @Column(name = "user_image")
     private String image;
 
     @Override

@@ -16,12 +16,16 @@ public class Comment {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Column(name = "author")
     private Integer author;
 
+    @Column(name = "id")
     private String createdAt;
 
+    @Column(name = "createdAt")
     private Integer pk;
 
+    @Column(name = "text")
     private String text;
 
     @Override
