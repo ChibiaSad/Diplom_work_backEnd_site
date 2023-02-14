@@ -13,7 +13,7 @@ public class Ads {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "ads_id", nullable = false)
-    private Long id;
+    private Long id_ads;
 
     @Column(name = "ads_author")
     private int author;

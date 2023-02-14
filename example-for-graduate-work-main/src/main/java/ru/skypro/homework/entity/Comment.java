@@ -12,7 +12,7 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "comment_id", nullable = false)
-    private Long id;
+    private Long id_comment;
 
     @Column(name = "comment_author")
     private Integer author;
