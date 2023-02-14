@@ -1,4 +1,4 @@
-package ru.skypro.homework.model;
+package ru.skypro.homework.entity;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,6 +25,10 @@ public class Comment {
 
     @Column(name = "comment_text")
     private String text;
+
+    @ManyToOne
+    @JoinColumn(name = "ads_id")
+    private Ads ads;
 
     @Override
     public boolean equals(Object o) {

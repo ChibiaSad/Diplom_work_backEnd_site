@@ -1,9 +1,12 @@
-package ru.skypro.homework.model;
+package ru.skypro.homework.entity;
 
+
+import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Objects;
-
+@Data
 @Entity
 @Table(name = "users")
 public class User {
@@ -25,25 +28,22 @@ public class User {
     @Column(name = "user_image")
     private String image;
 
+    @OneToOne
+    @JoinColumn(name = "id_avatar")
+    private Avatar avatar;
+    @OneToMany(mappedBy = "user")
+    private Collection<Ads> adsCollection;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(email, user.email) &&
-                Objects.equals(firstName, user.firstName) &&
-                Objects.equals(id, user.id) &&
-                Objects.equals(lastName, user.lastName) &&
-                Objects.equals(phone, user.phone) &&
-                Objects.equals(regDate, user.regDate) &&
-                Objects.equals(city, user.city) &&
-                Objects.equals(image, user.image);
+        return Objects.equals(id, user.id) && Objects.equals(email, user.email) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(phone, user.phone) && Objects.equals(regDate, user.regDate) && Objects.equals(city, user.city) && Objects.equals(image, user.image) && Objects.equals(avatar, user.avatar);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(email, firstName, id, lastName, phone, regDate, city, image);
+        return Objects.hash(id, email, firstName, lastName, phone, regDate, city, image, avatar);
     }
-
-
 }

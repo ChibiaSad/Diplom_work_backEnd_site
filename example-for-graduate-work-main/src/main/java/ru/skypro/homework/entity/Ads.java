@@ -1,8 +1,9 @@
-package ru.skypro.homework.model;
+package ru.skypro.homework.entity;
 
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -28,6 +29,14 @@ public class Ads {
 
     @Column(name = "ads_title")
     private String title;
+    @OneToMany(mappedBy = "ads")
+    private Collection<Image> images;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @OneToMany(mappedBy = "ads")
+    private Collection<Comment> comments;
 
     @Override
     public boolean equals(Object o) {
