@@ -12,7 +12,7 @@ import java.util.Objects;
 public class User {
     @Id
     @Column(name = "user_id")
-    private Integer id;
+    private Integer user_id;
     @Column(name = "user_email")
     private String email;
     @Column(name = "user_first_name")
@@ -29,7 +29,7 @@ public class User {
     private String image;
 
     @OneToOne
-    @JoinColumn(name = "id_avatar")
+    @JoinColumn(name = "avatar_id")
     private Avatar avatar;
     @OneToMany(mappedBy = "user")
     private Collection<Ads> adsCollection;
@@ -39,11 +39,26 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(email, user.email) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(phone, user.phone) && Objects.equals(regDate, user.regDate) && Objects.equals(city, user.city) && Objects.equals(image, user.image) && Objects.equals(avatar, user.avatar);
+        return Objects.equals(user_id, user.user_id) && Objects.equals(email, user.email) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(phone, user.phone) && Objects.equals(regDate, user.regDate) && Objects.equals(city, user.city) && Objects.equals(image, user.image) && Objects.equals(avatar, user.avatar);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, firstName, lastName, phone, regDate, city, image, avatar);
+        return Objects.hash(user_id, email, firstName, lastName, phone, regDate, city, image, avatar);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "user_id=" + user_id +
+                ", email='" + email  +
+                ", firstName='" + firstName  +
+                ", lastName='" + lastName  +
+                ", phone='" + phone  +
+                ", regDate='" + regDate  +
+                ", city='" + city  +
+                ", image='" + image +
+                ", avatar=" + avatar +
+                ", adsCollection=" + adsCollection;
     }
 }
