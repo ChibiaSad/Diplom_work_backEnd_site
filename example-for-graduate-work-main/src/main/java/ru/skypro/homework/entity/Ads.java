@@ -1,5 +1,6 @@
 package ru.skypro.homework.entity;
 
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
@@ -7,6 +8,7 @@ import java.util.Collection;
 import java.util.Objects;
 
 @Entity
+@Data
 @Table(name = "ads")
 @RequiredArgsConstructor
 public class Ads {

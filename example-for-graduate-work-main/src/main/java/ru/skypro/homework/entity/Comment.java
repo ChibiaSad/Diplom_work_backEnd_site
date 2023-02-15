@@ -1,11 +1,13 @@
 package ru.skypro.homework.entity;
 
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@Data
 @Table(name = "comment")
 @RequiredArgsConstructor
 public class Comment {
