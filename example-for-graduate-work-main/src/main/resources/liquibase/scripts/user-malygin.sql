@@ -32,10 +32,9 @@ CREATE TABLE comment
 );
 --changeset asafiulina:2
 
-
 CREATE TABLE avatar
 (
-    id_avatar         BIGINT         PRIMARY KEY ,
+    avatar_id         BIGINT         PRIMARY KEY ,
     data               bytea            NOT NULL ,
     file_path        VARCHAR            NOT NULL ,
     file_size          BIGINT           NOT NULL,
@@ -44,13 +43,16 @@ CREATE TABLE avatar
 
 CREATE TABLE image
 (
-    id_image            BIGINT       PRIMARY KEY ,
+    image_id            BIGINT       PRIMARY KEY ,
     data                bytea       NOT NULL ,
     file_path        VARCHAR            NOT NULL ,
     file_size          BIGINT           NOT NULL,
     media_type          VARCHAR         NOT NULL,
-    ads_id              BIGINT          REFERENCES ads(ads_id)
+    ads_id              BIGINT      REFERENCES ads(ads_id)
+
 );
+ALTER TABLE ads ADD COLUMN user_id INT REFERENCES users(user_id);
+ALTER TABLE comment ADD COLUMN ads_id  INT REFERENCES ads(ads_id);
 
 --changeset chibiaSad:3
 ALTER TABLE avatar ADD COLUMN

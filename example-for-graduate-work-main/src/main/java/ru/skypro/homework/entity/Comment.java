@@ -12,7 +12,7 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id", nullable = false)
-    private Long id_comment;
+    private Long comment_id;
 
     @Column(name = "comment_author")
     private Integer author;
@@ -43,4 +43,14 @@ public class Comment {
         return Objects.hash(author, createdAt, pk, text);
     }
 
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id_comment=" + comment_id +
+                ", author=" + author +
+                ", createdAt='" + createdAt +
+                ", pk=" + pk +
+                ", text='" + text +
+                ", ads=" + ads;
+    }
 }

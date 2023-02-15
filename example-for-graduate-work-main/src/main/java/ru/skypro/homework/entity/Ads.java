@@ -13,7 +13,7 @@ public class Ads {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ads_id", nullable = false)
-    private Long id_ads;
+    private Long ads_id;
 
     @Column(name = "ads_author")
     private int author;
@@ -42,13 +42,26 @@ public class Ads {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Ads that = (Ads) o;
-        return author == that.author && pk == that.pk && price == that.price && Objects.equals(image, that.image) && Objects.equals(title, that.title);
+        Ads ads = (Ads) o;
+        return author == ads.author && pk == ads.pk && price == ads.price && Objects.equals(ads_id, ads.ads_id) && Objects.equals(image, ads.image) && Objects.equals(title, ads.title) && Objects.equals(images, ads.images) && Objects.equals(user, ads.user) && Objects.equals(comments, ads.comments);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(author, image, pk, price, title);
+        return Objects.hash(ads_id, author, image, pk, price, title, images, user, comments);
     }
 
+    @Override
+    public String toString() {
+        return "Ads{" +
+                "id_ads=" + ads_id +
+                ", author=" + author +
+                ", image='" + image +
+                ", pk=" + pk +
+                ", price=" + price +
+                ", title='" + title  +
+                ", images=" + images +
+                ", user=" + user +
+                ", comments=" + comments;
+    }
 }
