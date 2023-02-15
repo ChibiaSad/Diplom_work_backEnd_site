@@ -49,10 +49,7 @@ CREATE TABLE image
     file_size          BIGINT           NOT NULL,
     media_type          VARCHAR         NOT NULL,
     ads_id              BIGINT      REFERENCES ads(ads_id)
-
 );
-ALTER TABLE ads ADD COLUMN user_id INT REFERENCES users(user_id);
-ALTER TABLE comment ADD COLUMN ads_id  INT REFERENCES ads(ads_id);
 
 --changeset chibiaSad:3
 ALTER TABLE avatar ADD COLUMN
