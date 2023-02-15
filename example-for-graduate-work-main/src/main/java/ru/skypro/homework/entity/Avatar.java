@@ -13,8 +13,8 @@ import java.util.Objects;
 public class Avatar {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_avatar", nullable = false)
-    private Long id_avatar;
+    @Column(name = "avatar_id", nullable = false)
+    private Long id;
     @Column(name = "file_path")
     private String filePath;
     @Column(name = "media_type")
@@ -35,19 +35,19 @@ public class Avatar {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Avatar avatar = (Avatar) o;
-        return fileSize == avatar.fileSize && Objects.equals(id_avatar, avatar.id_avatar) && Objects.equals(filePath, avatar.filePath) && Objects.equals(mediaType, avatar.mediaType) && Arrays.equals(data, avatar.data);
+        return fileSize == avatar.fileSize && Objects.equals(id, avatar.id) && Objects.equals(filePath, avatar.filePath) && Objects.equals(mediaType, avatar.mediaType) && Arrays.equals(data, avatar.data);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(id_avatar, filePath, mediaType, fileSize);
+        int result = Objects.hash(id, filePath, mediaType, fileSize);
         result = 31 * result + Arrays.hashCode(data);
         return result;
     }
 
     @Override
     public String toString() {
-        return "Avatar" + id_avatar + filePath + mediaType + fileSize + Arrays.toString(data);
+        return "Avatar" + id + filePath + mediaType + fileSize + Arrays.toString(data);
     }
 
 
