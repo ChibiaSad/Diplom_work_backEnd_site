@@ -27,10 +27,6 @@ public class User {
     private String city;
     @Column(name = "user_image")
     private String image;
-
-    @OneToOne
-    @JoinColumn(name = "id_avatar")
-    private Avatar avatar;
     @OneToMany(mappedBy = "user")
     private Collection<Ads> adsCollection;
 
@@ -39,11 +35,11 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(email, user.email) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(phone, user.phone) && Objects.equals(regDate, user.regDate) && Objects.equals(city, user.city) && Objects.equals(image, user.image) && Objects.equals(avatar, user.avatar);
+        return Objects.equals(id, user.id) && Objects.equals(email, user.email) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(phone, user.phone) && Objects.equals(regDate, user.regDate) && Objects.equals(city, user.city) && Objects.equals(image, user.image);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, firstName, lastName, phone, regDate, city, image, avatar);
+        return Objects.hash(id, email, firstName, lastName, phone, regDate, city, image);
     }
 }

@@ -10,7 +10,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class Comment {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id", nullable = false)
     private Long id_comment;
 

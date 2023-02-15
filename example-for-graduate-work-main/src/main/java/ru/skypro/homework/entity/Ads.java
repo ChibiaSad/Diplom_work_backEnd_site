@@ -11,7 +11,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class Ads {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ads_id", nullable = false)
     private Long id_ads;
 

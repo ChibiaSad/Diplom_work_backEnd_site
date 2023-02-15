@@ -2,6 +2,7 @@ package ru.skypro.homework.entity;
 
 
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Arrays;
@@ -14,16 +15,20 @@ public class Avatar {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_avatar", nullable = false)
     private Long id_avatar;
-    @Column(name = "filePath")
+    @Column(name = "file_path")
     private String filePath;
-    @Column(name = "mediaType")
+    @Column(name = "media_type")
     private String mediaType;
-    @Column(name = "fileSize")
+    @Column(name = "file_size")
     private long fileSize;
-    @Lob
+    @Lob()
+    @Type(type="org.hibernate.type.BinaryType")
     @Column(name = "data")
     private byte[] data;
 
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Override
     public boolean equals(Object o) {

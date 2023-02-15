@@ -76,7 +76,7 @@
             <artifactId>tomcat-embed-core</artifactId>
             <version>9.0.63</version>
         </dependency>
-                <dependency>
+        <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
         </dependency>
