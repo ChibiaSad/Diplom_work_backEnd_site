@@ -30,7 +30,27 @@ CREATE TABLE comment
     comment_created_at       VARCHAR         NOT NULL,
     comment_text       VARCHAR         NOT NULL
 );
+--changeset asafiulina:2
 
+
+CREATE TABLE avatar
+(
+    id_avatar         BIGINT         PRIMARY KEY ,
+    data               bytea            NOT NULL ,
+    file_path        VARCHAR            NOT NULL ,
+    file_size          BIGINT           NOT NULL,
+    media_type          VARCHAR         NOT NULL
+);
+
+CREATE TABLE image
+(
+    id_image            BIGINT       PRIMARY KEY ,
+    data                bytea       NOT NULL ,
+    file_path        VARCHAR            NOT NULL ,
+    file_size          BIGINT           NOT NULL,
+    media_type          VARCHAR         NOT NULL,
+    ads_id              BIGINT          REFERENCES ads(ads_id)
+);
 
 
 

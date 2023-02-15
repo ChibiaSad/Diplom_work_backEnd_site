@@ -1,20 +1,27 @@
 package ru.skypro.homework.entity;
 
-import lombok.Data;
+
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Arrays;
 import java.util.Objects;
-@Data
+@RequiredArgsConstructor
 @Entity
+@Table(name = "avatar")
 public class Avatar {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_avatar", nullable = false)
     private Long id_avatar;
-
-    private String filePath, mediaType;
+    @Column(name = "filePath")
+    private String filePath;
+    @Column(name = "mediaType")
+    private String mediaType;
+    @Column(name = "fileSize")
     private long fileSize;
     @Lob
+    @Column(name = "data")
     private byte[] data;
 
 
