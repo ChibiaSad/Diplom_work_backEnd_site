@@ -14,16 +14,17 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id", nullable = false)
-    private Long comment_id;
+    private Long id;
 
-    @Column(name = "comment_author")
-    private Integer author;
+    @ManyToOne
+    @JoinColumn(name = "comment_author")
+    private User author;
 
     @Column(name = "comment_created_at")
     private String createdAt;
 
-    @Column(name = "comment_pk")
-    private Integer pk;
+//    @Column(name = "comment_pk")
+//    private Integer pk;
 
     @Column(name = "comment_text")
     private String text;
@@ -32,27 +33,5 @@ public class Comment {
     @JoinColumn(name = "ads_id")
     private Ads ads;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Comment comment = (Comment) o;
-        return Objects.equals(author, comment.author) && Objects.equals(createdAt, comment.createdAt) && Objects.equals(pk, comment.pk) && Objects.equals(text, comment.text);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(author, createdAt, pk, text);
-    }
-
-    @Override
-    public String toString() {
-        return "Comment{" +
-                "id_comment=" + comment_id +
-                ", author=" + author +
-                ", createdAt='" + createdAt +
-                ", pk=" + pk +
-                ", text='" + text +
-                ", ads=" + ads;
-    }
 }
