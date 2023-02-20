@@ -19,7 +19,7 @@ public interface UserMapper {
     @Mapping(source = "phone", target = "phone")
     @Mapping(source = "regDate", target = "regDate")
     @Mapping(source = "city", target = "city")
-    @Mapping(source = "image", target = "image")
+    @Mapping(source = "avatar.filePath", target = "image")
     UserDto userToUserDto(User user);
 
     @InheritInverseConfiguration

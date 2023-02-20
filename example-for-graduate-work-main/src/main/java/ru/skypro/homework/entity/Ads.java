@@ -1,50 +1,44 @@
 package ru.skypro.homework.entity;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "ads")
 @RequiredArgsConstructor
 public class Ads {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ads_id", nullable = false)
-    private Long id;
+    private int id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User author;
+    @JoinColumn(name = "ads_author_id")
+    private User user;
 
     @Column(name = "ads_price")
     private int price;
 
     @Column(name = "ads_title")
     private String title;
-    //@OneToMany(mappedBy = "ads")
-    @Column(name = "ads_image")
-    private String image;
-    // private Collection<Image> images;
+
+    @OneToOne(mappedBy = "ads")
+    private Image image;
 
     @OneToMany(mappedBy = "ads")
-    private Collection<Comment> comments;
+    private List<Comment> comments;
 
 
     @Override
     public String toString() {
-        return "Ads{" +
-                "id=" + id +
-                ", author=" + author +
-                ", price=" + price +
-                ", title='" + title + '\'' +
-                ", images=" + image +
-                ", comments=" + comments +
-                '}';
+        return "Ads{" + "id=" + id + ", author=" + user + ", price=" + price + ", title='" + title + '\'' + ", images=" + image + ", comments=" + comments + '}';
     }
 
     @Override
@@ -52,12 +46,12 @@ public class Ads {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Ads ads = (Ads) o;
-        return price == ads.price && Objects.equals(id, ads.id) && Objects.equals(author, ads.author) && Objects.equals(title, ads.title) && Objects.equals(image, ads.image) && Objects.equals(comments, ads.comments);
+        return price == ads.price && Objects.equals(id, ads.id) && Objects.equals(user, ads.user) && Objects.equals(title, ads.title) && Objects.equals(image, ads.image) && Objects.equals(comments, ads.comments);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, author, price, title, image, comments);
+        return Objects.hash(id, user, price, title, image, comments);
     }
 
 

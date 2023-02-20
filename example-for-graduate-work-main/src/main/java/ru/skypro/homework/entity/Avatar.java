@@ -1,15 +1,15 @@
 package ru.skypro.homework.entity;
 
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.Type;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Arrays;
 import java.util.Objects;
 @RequiredArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "avatar")
 public class Avatar {
@@ -17,41 +17,32 @@ public class Avatar {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "avatar_id", nullable = false)
     private Long id;
-    @Column(name = "file_path")
+    @Column(name = "avatar_path")
     private String filePath;
-    @Column(name = "media_type")
-    private String mediaType;
-    @Column(name = "file_size")
-    private long fileSize;
-    @Lob()
-    @Type(type="org.hibernate.type.BinaryType")
-    @Column(name = "data")
-    private byte[] data;
 
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
 
     @Override
+    public String toString() {
+        return "Avatar{" +
+                "id=" + id +
+                ", filePath='" + filePath + '\'' +
+                ", user=" + user +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Avatar avatar = (Avatar) o;
-        return fileSize == avatar.fileSize && Objects.equals(id, avatar.id) && Objects.equals(filePath, avatar.filePath) && Objects.equals(mediaType, avatar.mediaType) && Arrays.equals(data, avatar.data);
+        return Objects.equals(id, avatar.id) && Objects.equals(filePath, avatar.filePath) && Objects.equals(user, avatar.user);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(id, filePath, mediaType, fileSize);
-        result = 31 * result + Arrays.hashCode(data);
-        return result;
+        return Objects.hash(id, filePath, user);
     }
-
-    @Override
-    public String toString() {
-        return "Avatar" + id + filePath + mediaType + fileSize + Arrays.toString(data);
-    }
-
-
-
 }
