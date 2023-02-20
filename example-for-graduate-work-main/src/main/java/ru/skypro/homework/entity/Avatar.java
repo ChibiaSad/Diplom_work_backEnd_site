@@ -1,6 +1,7 @@
 package ru.skypro.homework.entity;
 
 
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.Type;
 
@@ -8,6 +9,7 @@ import javax.persistence.*;
 import java.util.Arrays;
 import java.util.Objects;
 @RequiredArgsConstructor
+@Data
 @Entity
 @Table(name = "avatar")
 public class Avatar {

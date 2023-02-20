@@ -11,9 +11,9 @@ import ru.skypro.homework.entity.Comment;
 public interface CommentMapper {
     CommentMapper INSTANCE = Mappers.getMapper(CommentMapper.class);
 
-    @Mapping(source = "author", target = "author")
+    @Mapping(source = "id",target = "author")
     @Mapping(source = "createdAt", target = "createdAt")
-    @Mapping(source = "pk", target = "pk")
+    @Mapping(source = "id", target = "pk")
     @Mapping(source = "text", target = "text")
     CommentDto commentToCommentDto(Comment comment);
 

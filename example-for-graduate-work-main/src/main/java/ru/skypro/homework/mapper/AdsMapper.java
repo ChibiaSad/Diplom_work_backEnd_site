@@ -11,9 +11,9 @@ import ru.skypro.homework.entity.Ads;
 public interface AdsMapper {
     AdsMapper INSTANCE = Mappers.getMapper(AdsMapper.class);
 
-    @Mapping(source = "author", target = "author")
+    @Mapping(source = "author.id", target = "author")
     @Mapping(source = "image", target = "image")
-    @Mapping(source = "pk", target = "pk")
+    @Mapping(source = "id", target = "pk")
     @Mapping(source = "price", target = "price")
     @Mapping(source = "title", target = "title")
     AdsDto adsToAdsDto(Ads ads);

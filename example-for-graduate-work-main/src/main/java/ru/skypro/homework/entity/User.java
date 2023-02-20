@@ -29,7 +29,7 @@ public class User {
     private String city;
     @Column(name = "user_image")
     private String image;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "author")
     private Collection<Ads> adsCollection;
 
     @Override

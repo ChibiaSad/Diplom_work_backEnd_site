@@ -11,9 +11,8 @@ public class CommentMapperTest {
     @Test
     public void shouldMapCommentToCommentDto() {
         Comment comment = new Comment();
-        comment.setAuthor(1);
+        comment.setId(1L);
         comment.setCreatedAt("create");
-        comment.setPk(111);
         comment.setText("Text");
 
         CommentDto commentDto = CommentMapper.INSTANCE.commentToCommentDto(comment);
@@ -21,7 +20,6 @@ public class CommentMapperTest {
         assertThat(commentDto).isNotNull();
         assertThat(commentDto.getAuthor()).isEqualTo(1);
         assertThat(commentDto.getCreatedAt()).isEqualTo("create");
-        assertThat(commentDto.getPk()).isEqualTo(111);
         assertThat(commentDto.getText()).isEqualTo("Text");
 
     }
@@ -31,15 +29,13 @@ public class CommentMapperTest {
         CommentDto commentDto = new CommentDto();
         commentDto.setAuthor(1);
         commentDto.setCreatedAt("create");
-        commentDto.setPk(111);
         commentDto.setText("Text");
 
         Comment comment = CommentMapper.INSTANCE.commentDtoToComment(commentDto);
 
         assertThat(comment).isNotNull();
-        assertThat(comment.getAuthor()).isEqualTo(1);
+        assertThat(comment.getId()).isEqualTo(1);
         assertThat(comment.getCreatedAt()).isEqualTo("create");
-        assertThat(comment.getPk()).isEqualTo(111);
         assertThat(comment.getText()).isEqualTo("Text");
     }
 }

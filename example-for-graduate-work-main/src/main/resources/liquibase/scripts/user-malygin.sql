@@ -61,5 +61,12 @@ ALTER TABLE ads ADD COLUMN
 ALTER TABLE comment ADD COLUMN
     ads_id   BIGINT REFERENCES ads(ads_id);
 
+--changeset alikeli:4
+ALTER TABLE ads DROP COLUMN ads_pk;
+ALTER TABLE comment DROP COLUMN comment_pk ;
+--changeset alikeli:5
+ALTER TABLE ads DROP COLUMN ads_author;
+ALTER TABLE comment DROP COLUMN comment_author;
+
 
 

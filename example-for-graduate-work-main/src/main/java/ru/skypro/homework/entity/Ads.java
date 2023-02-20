@@ -21,22 +21,15 @@ public class Ads {
     @JoinColumn(name = "user_id")
     private User author;
 
-//    @Column(name = "ads_image")
-//    private String image;
-
-//    @Column(name = "ads_pk")
-//    private int pk;
-
     @Column(name = "ads_price")
     private int price;
 
     @Column(name = "ads_title")
     private String title;
-    @OneToMany(mappedBy = "ads")
-    private Collection<Image> images;
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
-//    private User user;
+    //@OneToMany(mappedBy = "ads")
+    @Column(name = "ads_image")
+    private String image;
+    // private Collection<Image> images;
 
     @OneToMany(mappedBy = "ads")
     private Collection<Comment> comments;
@@ -49,7 +42,7 @@ public class Ads {
                 ", author=" + author +
                 ", price=" + price +
                 ", title='" + title + '\'' +
-                ", images=" + images +
+                ", images=" + image +
                 ", comments=" + comments +
                 '}';
     }
@@ -59,12 +52,12 @@ public class Ads {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Ads ads = (Ads) o;
-        return price == ads.price && Objects.equals(id, ads.id) && Objects.equals(author, ads.author) && Objects.equals(title, ads.title) && Objects.equals(images, ads.images) && Objects.equals(comments, ads.comments);
+        return price == ads.price && Objects.equals(id, ads.id) && Objects.equals(author, ads.author) && Objects.equals(title, ads.title) && Objects.equals(image, ads.image) && Objects.equals(comments, ads.comments);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, author, price, title, images, comments);
+        return Objects.hash(id, author, price, title, image, comments);
     }
 
 

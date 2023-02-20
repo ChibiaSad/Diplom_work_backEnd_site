@@ -1,6 +1,7 @@
 package ru.skypro.homework.entity;
 
 
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.Type;
 
@@ -8,6 +9,7 @@ import javax.persistence.*;
 import java.util.Arrays;
 import java.util.Objects;
 @RequiredArgsConstructor
+@Data
 @Entity
 @Table(name = "image")
 public class Image {
@@ -15,6 +17,10 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "image_id", nullable = false)
     private Long id;
+    @Lob
+    @Type(type="org.hibernate.type.BinaryType")
+    @Column(name = "data")
+    private byte[] data;
     @Column(name = "file_path")
     private String filePath;
 
@@ -22,10 +28,6 @@ public class Image {
     private String mediaType;
     @Column(name = "file_size")
     private long fileSize;
-    @Lob
-    @Type(type="org.hibernate.type.BinaryType")
-    @Column(name = "data")
-    private byte[] data;
     @ManyToOne
     @JoinColumn(name = "ads_id")
     private Ads ads;
