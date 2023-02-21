@@ -8,8 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import ru.skypro.homework.controller.api.UsersApi;
 import ru.skypro.homework.dto.NewPasswordDto;
 import ru.skypro.homework.dto.UserDto;
+import ru.skypro.homework.service.impl.UserServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -22,11 +24,11 @@ import java.io.IOException;
 public class UsersApiController implements UsersApi {
     private final ObjectMapper objectMapper;
     private final HttpServletRequest request;
+    private final UserServiceImpl userService;
 
     @Override
     public ResponseEntity<UserDto> getUser() {
-        String accept = request.getHeader("Accept");
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ResponseEntity.ok(userService.getUser());
     }
 
     @Override
