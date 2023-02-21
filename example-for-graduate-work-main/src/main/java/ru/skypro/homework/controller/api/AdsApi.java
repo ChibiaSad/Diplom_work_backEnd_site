@@ -40,7 +40,7 @@ public interface AdsApi {
                     @ApiResponse(responseCode = "404", description = "Not Found")}
     )
     @PostMapping("/{ad_pk}/comments")
-    ResponseEntity<CommentDto> addComments(@PathVariable("ad_pk") String adPk,
+    ResponseEntity<CommentDto> addComments(@PathVariable("ad_pk") Integer adPk,
                                            @Valid @RequestBody CommentDto body);
 
 
@@ -52,7 +52,7 @@ public interface AdsApi {
                     @ApiResponse(responseCode = "404", description = "Not Found")}
     )
     @DeleteMapping("/{ad_pk}/comments/{id}")
-    ResponseEntity<Void> deleteComments(@PathVariable("ad_pk") String adPk,
+    ResponseEntity<Void> deleteComments(@PathVariable("ad_pk") Integer adPk,
                                         @PathVariable("id") Integer id);
 
 
@@ -99,7 +99,7 @@ public interface AdsApi {
                     @ApiResponse(responseCode = "404", description = "Not Found")}
     )
     @GetMapping("/{ad_pk}/comments")
-    ResponseEntity<ResponseWrapperCommentDto> getComments(@PathVariable("ad_pk") String adPk);
+    ResponseEntity<ResponseWrapperCommentDto> getComments(@PathVariable("ad_pk") Integer adPk);
 
 
     @Operation(summary = "getComments", tags = {"Объявления"},
@@ -110,7 +110,7 @@ public interface AdsApi {
                     @ApiResponse(responseCode = "404", description = "Not Found")}
     )
     @GetMapping("/{ad_pk}/comments/{id}")
-    ResponseEntity<CommentDto> getComments(@PathVariable("ad_pk") String adPk,
+    ResponseEntity<CommentDto> getComments(@PathVariable("ad_pk") Integer adPk,
                                            @PathVariable("id") Integer id);
 
 
@@ -148,7 +148,7 @@ public interface AdsApi {
                     @ApiResponse(responseCode = "404", description = "Not Found")}
     )
     @PatchMapping("/{ad_pk}/comments/{id}")
-    ResponseEntity<CommentDto> updateComments(@PathVariable("ad_pk") String adPk,
+    ResponseEntity<CommentDto> updateComments(@PathVariable("ad_pk") Integer adPk,
                                               @PathVariable("id") Integer id,
                                               @Valid @RequestBody CommentDto body);
 
