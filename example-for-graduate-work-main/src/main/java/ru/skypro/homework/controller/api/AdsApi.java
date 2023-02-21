@@ -1,4 +1,4 @@
-package ru.skypro.homework.controller;
+package ru.skypro.homework.controller.api;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -60,6 +60,7 @@ public interface AdsApi {
             responses = {
                     @ApiResponse(responseCode = "200", description = "OK",
                             content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ResponseWrapperAdsDto.class)))}
     )
     @GetMapping()

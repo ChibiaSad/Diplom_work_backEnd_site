@@ -1,4 +1,4 @@
-package ru.skypro.homework.controller;
+package ru.skypro.homework.controller.api;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
