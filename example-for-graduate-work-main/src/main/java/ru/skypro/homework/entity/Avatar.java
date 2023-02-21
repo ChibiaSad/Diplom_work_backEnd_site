@@ -16,7 +16,7 @@ public class Avatar {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "avatar_id", nullable = false)
-    private Long id;
+    private Integer id;
     @Column(name = "avatar_path")
     private String filePath;
 

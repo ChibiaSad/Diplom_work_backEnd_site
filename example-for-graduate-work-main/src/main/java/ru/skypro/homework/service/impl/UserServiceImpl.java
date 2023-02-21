@@ -1,18 +1,43 @@
 package ru.skypro.homework.service.impl;
 
-import org.springframework.http.ResponseEntity;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.RegisterReq;
 import ru.skypro.homework.dto.UserDto;
 import ru.skypro.homework.entity.User;
+import ru.skypro.homework.mapper.UserMapper;
+import ru.skypro.homework.repository.UserRepository;
 import ru.skypro.homework.service.UserService;
 
 import java.util.Optional;
 
+@Slf4j
+@RequiredArgsConstructor
+@Service
 public class UserServiceImpl implements UserService {
+    private final UserRepository userRepository;
+
+    public User getDefaultUser() {
+        User user = new User();
+        user.setId(1);
+        user.setEmail("user@gmail.com");
+        user.setPhone("0987654321");
+        user.setFirstName("Jack");
+        user.setLastName("Black");
+        return user;
+    }
+
     @Override
-    public ResponseEntity<byte[]> getAvatarByUserId(Long id) {
+    public UserDto getUser() {
+        return UserMapper.INSTANCE.userToUserDto(getDefaultUser());
+//        return null;
+    }
+
+    @Override
+    public byte[] getAvatarByUserId(Long id) {
         return null;
     }
 
@@ -22,12 +47,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<UserDto> updateUser(UserDto createUserDto, Authentication auth) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<UserDto> getUser(Integer id) {
+    public UserDto updateUser(UserDto createUserDto, Authentication auth) {
         return null;
     }
 
@@ -37,12 +57,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<UserDto> getUsersMe(Authentication auth) {
+    public UserDto getUsersMe(Authentication auth) {
         return null;
     }
 
     @Override
-    public ResponseEntity<byte[]> updateUserImage(MultipartFile avatarFile, Authentication auth) {
+    public byte[] updateUserImage(MultipartFile avatarFile, Authentication auth) {
         return null;
     }
 }
