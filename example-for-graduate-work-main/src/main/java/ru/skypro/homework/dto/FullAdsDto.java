@@ -5,7 +5,6 @@ import lombok.Data;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Objects;
 
 @Validated
@@ -21,7 +20,7 @@ public class FullAdsDto {
     private String email;
     @JsonProperty("image")
     @Valid
-    private List<String> image;
+    private String image;
     @JsonProperty("phone")
     private String phone;
     @JsonProperty("pk")

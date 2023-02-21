@@ -16,9 +16,11 @@ public class AuthServiceImpl implements AuthService {
     private final UserDetailsManager manager;
 
     private final PasswordEncoder encoder;
+    private final UserServiceImpl userService;
 
-    public AuthServiceImpl(UserDetailsManager manager) {
+    public AuthServiceImpl(UserDetailsManager manager, UserServiceImpl userService) {
         this.manager = manager;
+        this.userService = userService;
         this.encoder = new BCryptPasswordEncoder();
     }
 
@@ -45,6 +47,8 @@ public class AuthServiceImpl implements AuthService {
                         .roles(role.name())
                         .build()
         );
+        userService.createUser(registerReq);
+
         return true;
     }
 }

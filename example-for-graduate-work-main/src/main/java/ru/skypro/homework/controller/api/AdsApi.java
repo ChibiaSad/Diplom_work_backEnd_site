@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 @Validated
 @RequestMapping("/ads")
@@ -27,7 +28,7 @@ public interface AdsApi {
     )
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     ResponseEntity<AdsDto> addAds(@RequestPart() CreateAdsDto properties,
-                                  @Valid @RequestPart("image") MultipartFile image);
+                                  @Valid @RequestPart("image") MultipartFile image) throws IOException;
 
 
     @Operation(summary = "addComments", tags = {"Объявления"},

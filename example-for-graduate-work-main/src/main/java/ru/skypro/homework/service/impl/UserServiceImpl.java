@@ -43,7 +43,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean createUser(RegisterReq registerReqDto) {
-        return false;
+        User user = new User();
+        user.setEmail(registerReqDto.getUsername());
+        user.setFirstName(registerReqDto.getFirstName());
+        user.setLastName(registerReqDto.getLastName());
+        user.setPhone(registerReqDto.getPhone());
+        userRepository.save(user);
+        return true;
     }
 
     @Override

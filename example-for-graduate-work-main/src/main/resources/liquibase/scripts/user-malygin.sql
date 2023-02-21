@@ -46,3 +46,8 @@ CREATE TABLE image
     image_path VARCHAR NOT NULL,
     ads_id     int4 REFERENCES ads (ads_id)
 );
+
+--changeset chibiaSad:2
+ALTER TABLE ads ADD COLUMN description VARCHAR NOT NULL;
+--changeset chibiaSad:3
+ALTER TABLE ads DROP COLUMN ads_image;

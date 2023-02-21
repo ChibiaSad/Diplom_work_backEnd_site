@@ -9,10 +9,14 @@ import ru.skypro.homework.dto.AdsDto;
 import ru.skypro.homework.dto.CreateAdsDto;
 import ru.skypro.homework.dto.FullAdsDto;
 import ru.skypro.homework.dto.ResponseWrapperAdsDto;
+import ru.skypro.homework.entity.Ads;
+import ru.skypro.homework.entity.User;
+import ru.skypro.homework.exception.AdsNotFoundException;
 import ru.skypro.homework.mapper.AdsMapper;
 import ru.skypro.homework.repository.AdsRepository;
 import ru.skypro.homework.service.AdsService;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,10 +25,17 @@ import java.util.stream.Collectors;
 @Service
 public class AdsServiceImpl implements AdsService {
     private final AdsRepository adsRepository;
+    private final ImageServiceImpl imageService;
+    private final UserServiceImpl userService;
 
     @Override
-    public AdsDto addAdsToDb(CreateAdsDto createAdsDto, MultipartFile images) {
-        return null;
+    public AdsDto addAdsToDb(CreateAdsDto createAdsDto, MultipartFile images) throws IOException {
+        User user = userService.getDefaultUser();
+        Ads ads = AdsMapper.INSTANCE.CreateAdsDtoToAds(createAdsDto);
+        ads.setUser(user);
+        ads = adsRepository.save(ads);
+        ads.setImage(imageService.createImage(ads, images));
+        return AdsMapper.INSTANCE.adsToAdsDto(ads);
     }
 
     @Override
@@ -42,7 +53,8 @@ public class AdsServiceImpl implements AdsService {
 
     @Override
     public FullAdsDto getAds(Integer adsPk) {
-        return null;
+        Ads ads = adsRepository.findById(adsPk).orElseThrow(AdsNotFoundException::new);
+        return AdsMapper.INSTANCE.adsToFullAdsDto(ads);
     }
 
     @Override

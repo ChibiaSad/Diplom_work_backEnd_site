@@ -10,6 +10,8 @@ import ru.skypro.homework.dto.*;
 import ru.skypro.homework.service.CommentService;
 import ru.skypro.homework.service.impl.AdsServiceImpl;
 
+import java.io.IOException;
+
 @CrossOrigin(value = "http://localhost:3000")
 @RestController
 @Slf4j
@@ -18,7 +20,7 @@ public class AdsApiController implements AdsApi {
     private final AdsServiceImpl adsService;
     private final CommentService commentService;
 
-    public ResponseEntity<AdsDto> addAds(CreateAdsDto properties, MultipartFile image) {
+    public ResponseEntity<AdsDto> addAds(CreateAdsDto properties, MultipartFile image) throws IOException {
         return ResponseEntity.ok(adsService.addAdsToDb(properties, image));
     }
 

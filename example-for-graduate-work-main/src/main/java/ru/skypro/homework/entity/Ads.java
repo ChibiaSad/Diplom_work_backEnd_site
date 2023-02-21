@@ -35,6 +35,9 @@ public class Ads {
     @OneToMany(mappedBy = "ads")
     private List<Comment> comments;
 
+    @Column(name = "description")
+    private String description;
+
 
     @Override
     public String toString() {

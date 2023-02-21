@@ -7,10 +7,12 @@ import ru.skypro.homework.dto.CreateAdsDto;
 import ru.skypro.homework.dto.FullAdsDto;
 import ru.skypro.homework.dto.ResponseWrapperAdsDto;
 
+import java.io.IOException;
+
 
 public interface AdsService {
 
-    AdsDto addAdsToDb(CreateAdsDto createAdsDto, MultipartFile images);
+    AdsDto addAdsToDb(CreateAdsDto createAdsDto, MultipartFile images) throws IOException;
 
     ResponseWrapperAdsDto getAllAds();
 
