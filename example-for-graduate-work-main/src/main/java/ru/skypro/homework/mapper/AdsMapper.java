@@ -1,13 +1,15 @@
 package ru.skypro.homework.mapper;
 
-import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 import ru.skypro.homework.dto.AdsDto;
+import ru.skypro.homework.dto.ResponseWrapperAdsDto;
 import ru.skypro.homework.entity.Ads;
 
-@Mapper
+import java.util.List;
+
+@Mapper(componentModel = "spring")
 public interface AdsMapper {
     AdsMapper INSTANCE = Mappers.getMapper(AdsMapper.class);
 
@@ -18,7 +20,10 @@ public interface AdsMapper {
     @Mapping(source = "title", target = "title")
     AdsDto adsToAdsDto(Ads ads);
 
-    @InheritInverseConfiguration
-    Ads adsDtoToAds(AdsDto adsDto);
+//    @InheritInverseConfiguration
+//    Ads adsDtoToAds(AdsDto adsDto);
+
+    @Mapping(source = "list", target = "results")
+    ResponseWrapperAdsDto AdsDtoToWrapperAdsDto(List<AdsDto> list, int count);
 }
 
