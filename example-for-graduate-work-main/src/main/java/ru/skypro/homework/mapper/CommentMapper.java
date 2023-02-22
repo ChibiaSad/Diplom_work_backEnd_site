@@ -1,11 +1,13 @@
 package ru.skypro.homework.mapper;
 
-import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 import ru.skypro.homework.dto.CommentDto;
+import ru.skypro.homework.dto.ResponseWrapperCommentDto;
 import ru.skypro.homework.entity.Comment;
+
+import java.util.List;
 
 @Mapper
 public interface CommentMapper {
@@ -17,7 +19,7 @@ public interface CommentMapper {
     @Mapping(source = "text", target = "text")
     CommentDto commentToCommentDto(Comment comment);
 
-    @InheritInverseConfiguration
-    Comment commentDtoToComment(CommentDto commentDto);
+    @Mapping(source = "list", target = "results")
+    ResponseWrapperCommentDto CommentDtoToWrapperCommentDto(List<CommentDto> list, int count);
 }
 
