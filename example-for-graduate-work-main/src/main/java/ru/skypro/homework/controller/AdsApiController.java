@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.controller.api.AdsApi;
 import ru.skypro.homework.dto.*;
-import ru.skypro.homework.service.CommentService;
 import ru.skypro.homework.service.impl.AdsServiceImpl;
+import ru.skypro.homework.service.impl.CommentServiceImpl;
 
 import java.io.IOException;
 
@@ -18,7 +18,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class AdsApiController implements AdsApi {
     private final AdsServiceImpl adsService;
-    private final CommentService commentService;
+    private final CommentServiceImpl commentService;
 
     public ResponseEntity<AdsDto> addAds(CreateAdsDto properties, MultipartFile image) throws IOException {
         return ResponseEntity.ok(adsService.addAdsToDb(properties, image));
