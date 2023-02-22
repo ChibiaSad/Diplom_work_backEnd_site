@@ -10,14 +10,13 @@ import ru.skypro.homework.dto.UserDto;
 import ru.skypro.homework.entity.User;
 import ru.skypro.homework.mapper.UserMapper;
 import ru.skypro.homework.repository.UserRepository;
-import ru.skypro.homework.service.UserService;
 
 import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl{
     private final UserRepository userRepository;
 
     public User getDefaultUser() {
@@ -30,18 +29,15 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    @Override
     public UserDto getUser() {
         return UserMapper.INSTANCE.userToUserDto(getDefaultUser());
 //        return null;
     }
 
-    @Override
     public byte[] getAvatarByUserId(Long id) {
         return null;
     }
 
-    @Override
     public boolean createUser(RegisterReq registerReqDto) {
         User user = new User();
         user.setEmail(registerReqDto.getUsername());
@@ -52,22 +48,18 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
-    @Override
     public UserDto updateUser(UserDto createUserDto, Authentication auth) {
         return null;
     }
 
-    @Override
     public Optional<User> userExists(String username) {
         return Optional.empty();
     }
 
-    @Override
     public UserDto getUsersMe(Authentication auth) {
         return null;
     }
 
-    @Override
     public byte[] updateUserImage(MultipartFile avatarFile, Authentication auth) {
         return null;
     }

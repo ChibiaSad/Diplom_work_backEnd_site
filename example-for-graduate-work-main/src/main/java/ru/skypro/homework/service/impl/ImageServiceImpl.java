@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.entity.Ads;
 import ru.skypro.homework.entity.Image;
+import ru.skypro.homework.exception.ImageNotFoundException;
 import ru.skypro.homework.repository.ImageRepository;
-import ru.skypro.homework.service.ImageService;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -21,7 +21,7 @@ import java.util.Objects;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class ImageServiceImpl implements ImageService {
+public class ImageServiceImpl{
     @Value("${images.directory}")
     private String imageDir;
     private final ImageRepository imageRepository;
@@ -44,13 +44,14 @@ public class ImageServiceImpl implements ImageService {
         image.setAds(ads);
         return imageRepository.save(image);
     }
-    @Override
+
     public byte[] updateImage(Integer adsId, MultipartFile file) {
         return null;
     }
 
-    @Override
-    public Image getImageById(Integer imageId) {
-        return null;
+    public byte[] getImageById(Integer imageId) throws IOException {
+        Image image = imageRepository.findById(imageId).orElseThrow(ImageNotFoundException::new);
+        Path path = Paths.get(image.getFilePath());
+        return Files.readAllBytes(path);
     }
 }

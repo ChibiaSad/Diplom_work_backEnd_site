@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 @Validated
 @RequestMapping("/image")
@@ -30,4 +31,14 @@ public interface ImageApi {
     ResponseEntity <byte[]> updateImage(@PathVariable("id") Integer id,
                                              @Valid @RequestPart("image") MultipartFile image);
 
+    @Operation(summary = "readAdsImage", tags = "Изображения",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "OK",
+                            content = @Content(
+                                    mediaType = MediaType.IMAGE_JPEG_VALUE,
+                                    array = @ArraySchema(schema = @Schema(implementation = byte[].class)))),
+                    @ApiResponse(responseCode = "404", description = "Not Found")}
+    )
+    @GetMapping(value = "/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
+    ResponseEntity <byte[]> readImage(@PathVariable("id") Integer id) throws IOException;
 }

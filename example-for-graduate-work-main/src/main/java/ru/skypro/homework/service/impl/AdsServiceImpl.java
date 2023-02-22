@@ -14,7 +14,6 @@ import ru.skypro.homework.entity.User;
 import ru.skypro.homework.exception.AdsNotFoundException;
 import ru.skypro.homework.mapper.AdsMapper;
 import ru.skypro.homework.repository.AdsRepository;
-import ru.skypro.homework.service.AdsService;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,12 +22,11 @@ import java.util.stream.Collectors;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class AdsServiceImpl implements AdsService {
+public class AdsServiceImpl {
     private final AdsRepository adsRepository;
     private final ImageServiceImpl imageService;
     private final UserServiceImpl userService;
 
-    @Override
     public AdsDto addAdsToDb(CreateAdsDto createAdsDto, MultipartFile images) throws IOException {
         User user = userService.getDefaultUser();
         Ads ads = AdsMapper.INSTANCE.CreateAdsDtoToAds(createAdsDto);
@@ -38,7 +36,6 @@ public class AdsServiceImpl implements AdsService {
         return AdsMapper.INSTANCE.adsToAdsDto(ads);
     }
 
-    @Override
     public ResponseWrapperAdsDto getAllAds() {
         List<AdsDto> list = adsRepository.findAll().stream()
                 .map(AdsMapper.INSTANCE::adsToAdsDto)
@@ -46,23 +43,19 @@ public class AdsServiceImpl implements AdsService {
         return AdsMapper.INSTANCE.AdsDtoToWrapperAdsDto(list, list.size());
     }
 
-    @Override
     public Void deleteAds(Integer adsPk) {
         return null;
     }
 
-    @Override
     public FullAdsDto getAds(Integer adsPk) {
         Ads ads = adsRepository.findById(adsPk).orElseThrow(AdsNotFoundException::new);
         return AdsMapper.INSTANCE.adsToFullAdsDto(ads);
     }
 
-    @Override
     public AdsDto updateAds(int adsPk, CreateAdsDto createAdsDto) {
         return null;
     }
 
-    @Override
     public ResponseWrapperAdsDto getAdsMe(Authentication auth) {
         return null;
     }

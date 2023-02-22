@@ -16,7 +16,8 @@ public interface AdsMapper {
     AdsMapper INSTANCE = Mappers.getMapper(AdsMapper.class);
 
     @Mapping(source = "user.id", target = "author")
-    @Mapping(source = "image.filePath", target = "image")
+//    @Mapping(source = "image.filePath", target = "image")
+    @Mapping(expression = "java(\"/image/\" + ads.getImage().getId())", target = "image")
     @Mapping(source = "id", target = "pk")
     @Mapping(source = "price", target = "price")
     @Mapping(source = "title", target = "title")
@@ -30,7 +31,8 @@ public interface AdsMapper {
     @Mapping(target = "pk", source = "id")
     @Mapping(target = "price", source = "price")
     @Mapping(target = "title", source = "title")
-    @Mapping(target = "image", source = "image.filePath")
+//    @Mapping(target = "image", source = "image.filePath")
+    @Mapping(expression = "java(\"/image/\" + ads.getImage().getId())", target = "image")
     @Mapping(target = "description", source = "description")
     @Mapping(target = "phone", source = "user.phone")
     @Mapping(target = "email", source = "user.email")
