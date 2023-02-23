@@ -23,9 +23,9 @@ public class UserServiceImpl{
         User user = new User();
         user.setId(1);
         user.setEmail("user@gmail.com");
-        user.setPhone("0987654321");
-        user.setFirstName("Jack");
-        user.setLastName("Black");
+        user.setPhone("+78005553535");
+        user.setFirstName("First");
+        user.setLastName("Last");
         return user;
     }
 
