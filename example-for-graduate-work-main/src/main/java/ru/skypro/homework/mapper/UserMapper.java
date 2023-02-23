@@ -1,6 +1,5 @@
 package ru.skypro.homework.mapper;
 
-import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -17,12 +16,7 @@ public interface UserMapper {
     @Mapping(source = "firstName", target = "firstName")
     @Mapping(source = "lastName", target = "lastName")
     @Mapping(source = "phone", target = "phone")
-    @Mapping(source = "regDate", target = "regDate")
-    @Mapping(source = "city", target = "city")
-    @Mapping(source = "avatar.filePath", target = "image")
+    @Mapping(expression = "java(\"/users/me/image/\" + user.getAvatar().getId())", target = "image")
     UserDto userToUserDto(User user);
-
-    @InheritInverseConfiguration
-    User userDtoToUser(UserDto userDto);
 }
 

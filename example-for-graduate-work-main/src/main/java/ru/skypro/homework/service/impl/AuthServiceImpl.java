@@ -48,7 +48,6 @@ public class AuthServiceImpl implements AuthService {
                         .build()
         );
         userService.createUser(registerReq);
-
         return true;
     }
 }

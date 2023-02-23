@@ -2,7 +2,6 @@ package ru.skypro.homework.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.AdsDto;
@@ -26,8 +25,10 @@ public class AdsServiceImpl {
     private final AdsRepository adsRepository;
     private final ImageServiceImpl imageService;
     private final UserServiceImpl userService;
+    private final CommentServiceImpl commentService;
 
     public AdsDto addAdsToDb(CreateAdsDto createAdsDto, MultipartFile images) throws IOException {
+        log.debug("method addAdsToDb started");
         User user = userService.getDefaultUser();
         Ads ads = AdsMapper.INSTANCE.CreateAdsDtoToAds(createAdsDto);
         ads.setUser(user);
@@ -37,26 +38,47 @@ public class AdsServiceImpl {
     }
 
     public ResponseWrapperAdsDto getAllAds() {
+        log.debug("method getAllAds started");
         List<AdsDto> list = adsRepository.findAll().stream()
                 .map(AdsMapper.INSTANCE::adsToAdsDto)
                 .collect(Collectors.toList());
         return AdsMapper.INSTANCE.AdsDtoToWrapperAdsDto(list, list.size());
     }
 
-    public Void deleteAds(Integer adsPk) {
-        return null;
+    public void deleteAds(Integer adsPk) {
+        log.debug("method deleteAds started");
+        commentService.deleteAllAdsComment(adsPk);
+        imageService.deleteAdsImage(adsPk);
+        adsRepository.deleteById(adsPk);
     }
 
     public FullAdsDto getAds(Integer adsPk) {
+        log.debug("method getAds started");
         Ads ads = adsRepository.findById(adsPk).orElseThrow(AdsNotFoundException::new);
         return AdsMapper.INSTANCE.adsToFullAdsDto(ads);
     }
 
     public AdsDto updateAds(int adsPk, CreateAdsDto createAdsDto) {
-        return null;
+        log.debug("method updateAds started");
+        Ads ads = adsRepository.findById(adsPk).orElseThrow(AdsNotFoundException::new);
+        if (createAdsDto.getDescription() != null) {
+            ads.setDescription(createAdsDto.getDescription());
+        }
+        if (createAdsDto.getPrice() != null) {
+            ads.setPrice(createAdsDto.getPrice());
+        }
+        if (createAdsDto.getTitle() != null) {
+            ads.setTitle(createAdsDto.getTitle());
+        }
+        return AdsMapper.INSTANCE.adsToAdsDto(adsRepository.save(ads));
     }
 
-    public ResponseWrapperAdsDto getAdsMe(Authentication auth) {
-        return null;
+    public ResponseWrapperAdsDto getAdsMe() {
+//    public ResponseWrapperAdsDto getAdsMe(Authentication auth) {
+        log.debug("method getAdsMe started");
+        List<AdsDto> list = adsRepository.findByAdsAuthorId(userService.getUser().getId()).stream()
+                .map(AdsMapper.INSTANCE::adsToAdsDto)
+                .collect(Collectors.toList());
+        return AdsMapper.INSTANCE.AdsDtoToWrapperAdsDto(list, list.size());
     }
 }
