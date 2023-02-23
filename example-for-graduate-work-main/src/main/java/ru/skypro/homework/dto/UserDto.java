@@ -17,10 +17,6 @@ public class UserDto {
     private String lastName;
     @JsonProperty("phone")
     private String phone;
-    @JsonProperty("regDate")
-    private String regDate;
-    @JsonProperty("city")
-    private String city;
     @JsonProperty("image")
     private String image;
 
@@ -34,14 +30,12 @@ public class UserDto {
                 Objects.equals(id, user.id) &&
                 Objects.equals(lastName, user.lastName) &&
                 Objects.equals(phone, user.phone) &&
-                Objects.equals(regDate, user.regDate) &&
-                Objects.equals(city, user.city) &&
                 Objects.equals(image, user.image);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(email, firstName, id, lastName, phone, regDate, city, image);
+        return Objects.hash(email, firstName, id, lastName, phone, image);
     }
 
     @Override
@@ -52,8 +46,6 @@ public class UserDto {
                 ", id=" + id +
                 ", lastName='" + lastName + '\'' +
                 ", phone='" + phone + '\'' +
-                ", regDate='" + regDate + '\'' +
-                ", city='" + city + '\'' +
                 ", image='" + image + '\'' +
                 '}';
     }

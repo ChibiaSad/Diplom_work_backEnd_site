@@ -2,6 +2,8 @@ package ru.skypro.homework.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -9,6 +11,7 @@ import ru.skypro.homework.controller.api.AdsApi;
 import ru.skypro.homework.dto.*;
 import ru.skypro.homework.service.impl.AdsServiceImpl;
 import ru.skypro.homework.service.impl.CommentServiceImpl;
+import ru.skypro.homework.service.impl.ImageServiceImpl;
 
 import java.io.IOException;
 
@@ -19,9 +22,10 @@ import java.io.IOException;
 public class AdsApiController implements AdsApi {
     private final AdsServiceImpl adsService;
     private final CommentServiceImpl commentService;
+    private final ImageServiceImpl imageService;
 
     public ResponseEntity<AdsDto> addAds(CreateAdsDto properties, MultipartFile image) throws IOException {
-        return ResponseEntity.ok(adsService.addAdsToDb(properties, image));
+        return ResponseEntity.status(HttpStatus.CREATED).body(adsService.addAdsToDb(properties, image));
     }
 
     public ResponseEntity<CommentDto> addComments(Integer adPk, CommentDto body) {
@@ -29,7 +33,8 @@ public class AdsApiController implements AdsApi {
     }
 
     public ResponseEntity<Void> deleteComments(Integer adPk, Integer id) {
-        return ResponseEntity.ok(commentService.deleteAdsComment(adPk, id));
+        commentService.deleteAdsComment(adPk, id);
+        return ResponseEntity.ok().build();
     }
 
     public ResponseEntity<ResponseWrapperAdsDto> getALLAds() {
@@ -40,9 +45,8 @@ public class AdsApiController implements AdsApi {
         return ResponseEntity.ok(adsService.getAds(id));
     }
 
-    @Override
     public ResponseEntity<ResponseWrapperAdsDto> getAdsMeUsingGET() {
-        return ResponseEntity.ok(adsService.getAllAds());
+        return ResponseEntity.ok(adsService.getAdsMe());
     }
 
     public ResponseEntity<ResponseWrapperCommentDto> getComments(Integer adPk) {
@@ -54,7 +58,8 @@ public class AdsApiController implements AdsApi {
     }
 
     public ResponseEntity<Void> removeAds(Integer id) {
-        return ResponseEntity.ok(adsService.deleteAds(id));
+        adsService.deleteAds(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     public ResponseEntity<AdsDto> updateAds(Integer id, CreateAdsDto body) {
@@ -63,6 +68,15 @@ public class AdsApiController implements AdsApi {
 
     public ResponseEntity<CommentDto> updateComments(Integer adPk, Integer id, CommentDto body) {
         return ResponseEntity.ok(commentService.updateAdsComment(adPk, id, body));
+    }
+
+    //почему-то при update картинки ads фронт обращается сюда
+    public ResponseEntity<byte[]> updateImage(Integer adPk, MultipartFile image) throws IOException {
+        byte[] data = imageService.updateImage(adPk, image);
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_JPEG)
+                .contentLength(data.length)
+                .body(data);
     }
 }
 

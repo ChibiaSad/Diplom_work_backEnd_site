@@ -31,6 +31,7 @@ public class CommentServiceImpl{
 
 
     public CommentDto addCommentToDb(Integer adsPk, CommentDto commentDto, String userName) {
+        log.debug("method addCommentToDb started");
         Ads ads = adsRepository.findById(adsPk).orElseThrow(AdsNotFoundException::new);
 //        User user = userRepository.findById(commentDto.getAuthor()).orElseThrow(UserNotFoundException::new); //id не приходит
         User user = userService.getDefaultUser();
@@ -44,6 +45,7 @@ public class CommentServiceImpl{
 
 
     public ResponseWrapperCommentDto getAllComments(Integer adsPk) {
+        log.debug("method getAllComments started");
         List<CommentDto> list = commentRepository.findAllByAdsId(adsPk).stream()
                 .map(CommentMapper.INSTANCE::commentToCommentDto)
                 .collect(Collectors.toList());
@@ -52,17 +54,34 @@ public class CommentServiceImpl{
 
 
     public CommentDto getAdsComment(Integer adsPk, Integer id) {
-        Comment comment = commentRepository.findAllByIdAndAdsId(id, adsPk).orElseThrow(CommentNotFoundException::new);
-        return CommentMapper.INSTANCE.commentToCommentDto(comment);
+        log.debug("method getAdsComment started");
+        /*
+        после открытия Ads фронт при любом следующем действии запрашивает комментарий еще раз,
+        при удалении комментария вылетает Exception
+        */
+//        Comment comment = commentRepository.findByIdAndAdsId(id, adsPk).orElseThrow(CommentNotFoundException::new);
+        Comment comment = commentRepository.findByIdAndAdsId(id, adsPk).orElse(null);
+        return comment == null ? null : CommentMapper.INSTANCE.commentToCommentDto(comment);
     }
 
 
-    public CommentDto updateAdsComment(Integer adsPk, Integer id, CommentDto adsCommentDto) {
-        return null;
+    public CommentDto updateAdsComment(Integer adsPk, Integer id, CommentDto commentDto) {
+        log.debug("method updateAdsComment started");
+        Comment comment = commentRepository.findByIdAndAdsId(id, adsPk).orElseThrow(CommentNotFoundException::new);
+        if(commentDto.getText() != null){
+            comment.setText(commentDto.getText());
+        }
+        return CommentMapper.INSTANCE.commentToCommentDto(commentRepository.save(comment));
     }
 
 
-    public Void deleteAdsComment(Integer adsPk, Integer id) {
-        return null;
+    public void deleteAdsComment(Integer adsPk, Integer id) {
+        log.debug("method deleteAdsComment started");
+        commentRepository.deleteByIdAndAdsId(id, adsPk);
+    }
+
+    public void deleteAllAdsComment(Integer adsPk) {
+        log.debug("method deleteAllAdsComment started");
+        commentRepository.deleteAllByAdsId(adsPk);
     }
 }

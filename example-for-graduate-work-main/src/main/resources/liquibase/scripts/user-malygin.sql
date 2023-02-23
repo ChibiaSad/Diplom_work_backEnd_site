@@ -48,6 +48,15 @@ CREATE TABLE image
 );
 
 --changeset chibiaSad:2
-ALTER TABLE ads ADD COLUMN description VARCHAR NOT NULL;
+ALTER TABLE ads ADD COLUMN description VARCHAR NOT NULL default '';
+
 --changeset chibiaSad:3
 ALTER TABLE ads DROP COLUMN ads_image;
+
+--changeset chibiSad:4
+ALTER TABLE users DROP COLUMN user_city;
+ALTER TABLE users DROP COLUMN user_reg_date;
+ALTER TABLE users ADD COLUMN user_password VARCHAR NOT NULL default '';
+
+INSERT INTO users (user_email, user_first_name, user_last_name, user_phone, user_password, user_image)
+values ('user@gmail.com', 'First', 'Last', '+78005553535', 'password', null);

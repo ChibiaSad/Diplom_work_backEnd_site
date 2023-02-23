@@ -6,7 +6,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.controller.api.ImageApi;
 import ru.skypro.homework.service.impl.ImageServiceImpl;
 
@@ -19,10 +18,14 @@ import java.io.IOException;
 public class ImageApiController implements ImageApi {
     private final ImageServiceImpl imageService;
 
-    @Override
-    public ResponseEntity<byte[]> updateImage(Integer id, MultipartFile image) {
-        return ResponseEntity.ok(imageService.updateImage(id, image));
-    }
+//    @Override
+//    public ResponseEntity<byte[]> updateImage(Integer id, MultipartFile image) throws IOException {
+//        byte[] img = imageService.updateImage(id, image);
+//        return ResponseEntity.ok()
+//                .contentLength(img.length)
+//                .contentType(MediaType.IMAGE_JPEG)
+//                .body(img);
+//    }
 
     @Override
     public ResponseEntity<byte[]> readImage(Integer id) throws IOException {

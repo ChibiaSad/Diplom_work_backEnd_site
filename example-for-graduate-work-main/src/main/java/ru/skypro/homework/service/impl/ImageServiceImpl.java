@@ -28,6 +28,7 @@ public class ImageServiceImpl{
 
 
     public Image createImage(Ads ads, MultipartFile file) throws IOException {
+        log.debug("method createImage started");
         byte[] data = file.getBytes();
         String extension = Objects.requireNonNull(
                 file.getOriginalFilename()).substring(
@@ -45,13 +46,25 @@ public class ImageServiceImpl{
         return imageRepository.save(image);
     }
 
-    public byte[] updateImage(Integer adsId, MultipartFile file) {
-        return null;
+    public byte[] updateImage(Integer id, MultipartFile file) throws IOException {
+        log.debug("method updateImage started");
+        Image img = imageRepository.findByAdsId(id).orElseThrow(ImageNotFoundException::new);
+        Path path = Paths.get(img.getFilePath());
+        byte[] data = file.getBytes();
+        Files.createDirectories(path.getParent());
+        Files.write(path, data);
+        return data;
     }
 
     public byte[] getImageById(Integer imageId) throws IOException {
+        log.debug("method getImageById started");
         Image image = imageRepository.findById(imageId).orElseThrow(ImageNotFoundException::new);
         Path path = Paths.get(image.getFilePath());
         return Files.readAllBytes(path);
+    }
+
+    public void deleteAdsImage(Integer adsPk) {
+        log.debug("method deleteAdsImage started");
+        imageRepository.deleteByAdsId(adsPk);
     }
 }
