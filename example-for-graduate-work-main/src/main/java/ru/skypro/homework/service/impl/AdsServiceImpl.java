@@ -81,4 +81,11 @@ public class AdsServiceImpl {
                 .collect(Collectors.toList());
         return AdsMapper.INSTANCE.AdsDtoToWrapperAdsDto(list, list.size());
     }
+
+    //Поиск объявлений по полному или части названия
+    public List<AdsDto> findAdsByTitle (String title){
+        log.debug("method findAdsByTitle started");
+        return adsRepository.findAdsByTitleContainingIgnoreCase(title).stream().
+                map(AdsMapper.INSTANCE::adsToAdsDto).collect(Collectors.toList());
+    }
 }

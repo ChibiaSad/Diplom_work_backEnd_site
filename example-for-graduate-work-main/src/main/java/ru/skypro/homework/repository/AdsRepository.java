@@ -13,4 +13,6 @@ public interface AdsRepository extends JpaRepository<Ads, Integer> {
 
     @Query(nativeQuery = true, value = "SELECT * FROM ads WHERE ads_author_id = :id")
     List<Ads> findByAdsAuthorId(@Param(value = "id") Integer id);
+
+    List<Ads> findAdsByTitleContainingIgnoreCase(String name);
 }
