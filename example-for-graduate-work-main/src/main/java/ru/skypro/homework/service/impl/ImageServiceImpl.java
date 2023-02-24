@@ -37,7 +37,6 @@ public class ImageServiceImpl{
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         Path path = Paths.get(imageDir,
                 ads.getId() + "_" + LocalDateTime.now().format(format) + extension);
-
         Files.createDirectories(path.getParent());
         Files.write(path, data);
         Image image = new Image();
