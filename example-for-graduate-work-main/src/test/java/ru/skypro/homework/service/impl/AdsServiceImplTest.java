@@ -34,7 +34,6 @@ class AdsServiceImplTest {
     private UserServiceImpl userService;
     @Mock
     private CommentServiceImpl commentService;
-    @Mock
 
     @InjectMocks
     private AdsServiceImpl adsService;
@@ -72,7 +71,7 @@ class AdsServiceImplTest {
         AdsDto adsDto = new AdsDto(user.getId(), "/image/1", ads.getId(),
                 ads.getPrice(), ads.getTitle());
 
-        Path path = Paths.get("D:/images/i/2_2023-02-22.jpg");
+        Path path = Paths.get("src/test/java/ru/skypro/homework/resources/2_2023-02-22.jpg");
         String name = "2_2023-02-22.jpg";
         String originalFileName = "2_2023-02-22.jpg";
         String contentType = "jpeg";
