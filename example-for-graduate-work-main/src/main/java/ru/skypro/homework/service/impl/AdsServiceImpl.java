@@ -30,7 +30,7 @@ public class AdsServiceImpl {
     public AdsDto addAdsToDb(CreateAdsDto createAdsDto, MultipartFile images) throws IOException {
         log.debug("method addAdsToDb started");
         User user = userService.getDefaultUser();
-        Ads ads = AdsMapper.INSTANCE.CreateAdsDtoToAds(createAdsDto);
+        Ads ads = AdsMapper.INSTANCE.createAdsDtoToAds(createAdsDto);
         ads.setUser(user);
         ads = adsRepository.save(ads);
         ads.setImage(imageService.createImage(ads, images));
@@ -42,7 +42,7 @@ public class AdsServiceImpl {
         List<AdsDto> list = adsRepository.findAll().stream()
                 .map(AdsMapper.INSTANCE::adsToAdsDto)
                 .collect(Collectors.toList());
-        return AdsMapper.INSTANCE.AdsDtoToWrapperAdsDto(list, list.size());
+        return AdsMapper.INSTANCE.adsDtoToWrapperAdsDto(list, list.size());
     }
 
     public void deleteAds(Integer adsPk) {
@@ -79,7 +79,7 @@ public class AdsServiceImpl {
         List<AdsDto> list = adsRepository.findByAdsAuthorId(userService.getUser().getId()).stream()
                 .map(AdsMapper.INSTANCE::adsToAdsDto)
                 .collect(Collectors.toList());
-        return AdsMapper.INSTANCE.AdsDtoToWrapperAdsDto(list, list.size());
+        return AdsMapper.INSTANCE.adsDtoToWrapperAdsDto(list, list.size());
     }
 
     //Поиск объявлений по полному названию или части названия
@@ -88,6 +88,6 @@ public class AdsServiceImpl {
         List<AdsDto> list = adsRepository.findAdsByTitleContainingIgnoreCase(title).stream().
                 map(AdsMapper.INSTANCE::adsToAdsDto)
                 .collect(Collectors.toList());
-        return AdsMapper.INSTANCE.AdsDtoToWrapperAdsDto(list, list.size());
+        return AdsMapper.INSTANCE.adsDtoToWrapperAdsDto(list, list.size());
     }
 }
