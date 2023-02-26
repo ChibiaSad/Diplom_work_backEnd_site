@@ -24,9 +24,9 @@ public interface AdsMapper {
     AdsDto adsToAdsDto(Ads ads);
 
     @Mapping(source = "list", target = "results")
-    ResponseWrapperAdsDto AdsDtoToWrapperAdsDto(List<AdsDto> list, int count);
+    ResponseWrapperAdsDto adsDtoToWrapperAdsDto(List<AdsDto> list, int count);
 
-    Ads CreateAdsDtoToAds(CreateAdsDto createAdsDto);
+    Ads createAdsDtoToAds(CreateAdsDto createAdsDto);
 
     @Mapping(target = "pk", source = "id")
     @Mapping(target = "price", source = "price")
