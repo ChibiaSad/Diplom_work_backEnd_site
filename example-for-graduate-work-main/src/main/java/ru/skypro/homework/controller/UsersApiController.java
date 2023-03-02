@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,13 +24,13 @@ public class UsersApiController implements UsersApi {
     private final UserServiceImpl userService;
 
     @Override
-    public ResponseEntity<UserDto> getUser() {
-        return ResponseEntity.ok(userService.getUser());
+    public ResponseEntity<UserDto> getUser(Authentication auth) {
+        return ResponseEntity.ok(userService.getUser(auth));
     }
 
     @Override
-    public ResponseEntity<NewPasswordDto> setPassword(NewPasswordDto body) {
-        return ResponseEntity.ok(userService.setPassword(body));
+    public ResponseEntity<NewPasswordDto> setPassword(NewPasswordDto body, Authentication auth) {
+        return ResponseEntity.ok(userService.setPassword(body, auth));
     }
 
     @Override

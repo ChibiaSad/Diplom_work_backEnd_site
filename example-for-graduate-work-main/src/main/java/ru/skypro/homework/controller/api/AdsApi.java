@@ -7,11 +7,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.*;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import java.io.IOException;
 
@@ -27,6 +30,7 @@ public interface AdsApi {
                     @ApiResponse(responseCode = "403", description = "Forbidden"),
                     @ApiResponse(responseCode = "404", description = "Not Found")}
     )
+    @RolesAllowed({"USER"})
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     ResponseEntity<AdsDto> addAds(@RequestPart() CreateAdsDto properties,
                                   @Valid @RequestPart("image") MultipartFile image) throws IOException;
@@ -41,6 +45,7 @@ public interface AdsApi {
                     @ApiResponse(responseCode = "403", description = "Forbidden"),
                     @ApiResponse(responseCode = "404", description = "Not Found")}
     )
+    @RolesAllowed({"USER"})
     @PostMapping("/{ad_pk}/comments")
     ResponseEntity<CommentDto> addComments(@PathVariable("ad_pk") Integer adPk,
                                            @Valid @RequestBody CommentDto body);
@@ -53,6 +58,7 @@ public interface AdsApi {
                     @ApiResponse(responseCode = "403", description = "Forbidden"),
                     @ApiResponse(responseCode = "404", description = "Not Found")}
     )
+    @RolesAllowed({"USER", "ADMIN"})
     @DeleteMapping("/{ad_pk}/comments/{id}")
     ResponseEntity<Void> deleteComments(@PathVariable("ad_pk") Integer adPk,
                                         @PathVariable("id") Integer id);
@@ -76,6 +82,7 @@ public interface AdsApi {
                                     schema = @Schema(implementation = FullAdsDto.class))),
                     @ApiResponse(responseCode = "404", description = "Not Found")}
     )
+    @RolesAllowed({"USER"})
     @GetMapping("/{id}")
     ResponseEntity<FullAdsDto> getAds(@PathVariable("id") Integer id);
 
@@ -89,8 +96,9 @@ public interface AdsApi {
                     @ApiResponse(responseCode = "403", description = "Forbidden"),
                     @ApiResponse(responseCode = "404", description = "Not Found")}
     )
+    @RolesAllowed({"USER"})
     @GetMapping("/me")
-    ResponseEntity<ResponseWrapperAdsDto> getAdsMeUsingGET();
+    ResponseEntity<ResponseWrapperAdsDto> getAdsMeUsingGET(Authentication authentication);
 
 
     @Operation(summary = "getComments", tags = {"Объявления"},
@@ -100,8 +108,10 @@ public interface AdsApi {
                                     schema = @Schema(implementation = ResponseWrapperCommentDto.class))),
                     @ApiResponse(responseCode = "404", description = "Not Found")}
     )
+    @RolesAllowed({"USER"})
     @GetMapping("/{ad_pk}/comments")
     ResponseEntity<ResponseWrapperCommentDto> getComments(@PathVariable("ad_pk") Integer adPk);
+
 
 
     @Operation(summary = "getComments", tags = {"Объявления"},
@@ -111,6 +121,7 @@ public interface AdsApi {
                                     schema = @Schema(implementation = CommentDto.class))),
                     @ApiResponse(responseCode = "404", description = "Not Found")}
     )
+    @RolesAllowed({"USER"})
     @GetMapping("/{ad_pk}/comments/{id}")
     ResponseEntity<CommentDto> getComments(@PathVariable("ad_pk") Integer adPk,
                                            @PathVariable("id") Integer id);
@@ -122,6 +133,7 @@ public interface AdsApi {
                     @ApiResponse(responseCode = "401", description = "Unauthorized"),
                     @ApiResponse(responseCode = "403", description = "Forbidden")}
     )
+    @RolesAllowed({"USER", "ADMIN"})
     @DeleteMapping("/{id}")
     ResponseEntity<Void> removeAds(@PathVariable("id") Integer id);
 
@@ -135,6 +147,7 @@ public interface AdsApi {
                     @ApiResponse(responseCode = "403", description = "Forbidden"),
                     @ApiResponse(responseCode = "404", description = "Not Found")}
     )
+    @RolesAllowed({"USER", "ADMIN"})
     @PatchMapping("/{id}")
     ResponseEntity<AdsDto> updateAds(@PathVariable("id") Integer id,
                                      @Valid @RequestBody CreateAdsDto body);
@@ -149,6 +162,7 @@ public interface AdsApi {
                     @ApiResponse(responseCode = "403", description = "Forbidden"),
                     @ApiResponse(responseCode = "404", description = "Not Found")}
     )
+    @RolesAllowed({"USER", "ADMIN"})
     @PatchMapping("/{ad_pk}/comments/{id}")
     ResponseEntity<CommentDto> updateComments(@PathVariable("ad_pk") Integer adPk,
                                               @PathVariable("id") Integer id,
@@ -162,6 +176,7 @@ public interface AdsApi {
                                     array = @ArraySchema(schema = @Schema(implementation = byte[].class)))),
                     @ApiResponse(responseCode = "404", description = "Not Found")}
     )
+    @RolesAllowed({"USER", "ADMIN"})
     @PatchMapping(value = "/{ad_pk}/image", produces = MediaType.IMAGE_JPEG_VALUE,
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     ResponseEntity <byte[]> updateImage(@PathVariable("ad_pk") Integer adPk,

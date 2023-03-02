@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.controller.api.AdsApi;
@@ -13,6 +14,7 @@ import ru.skypro.homework.service.impl.AdsServiceImpl;
 import ru.skypro.homework.service.impl.CommentServiceImpl;
 import ru.skypro.homework.service.impl.ImageServiceImpl;
 
+import javax.annotation.security.RolesAllowed;
 import java.io.IOException;
 
 @CrossOrigin(value = "http://localhost:3000")
@@ -45,8 +47,8 @@ public class AdsApiController implements AdsApi {
         return ResponseEntity.ok(adsService.getAds(id));
     }
 
-    public ResponseEntity<ResponseWrapperAdsDto> getAdsMeUsingGET() {
-        return ResponseEntity.ok(adsService.getAdsMe());
+    public ResponseEntity<ResponseWrapperAdsDto> getAdsMeUsingGET(Authentication authentication) {
+        return ResponseEntity.ok(adsService.getAdsMe(authentication));
     }
 
     public ResponseEntity<ResponseWrapperCommentDto> getComments(Integer adPk) {

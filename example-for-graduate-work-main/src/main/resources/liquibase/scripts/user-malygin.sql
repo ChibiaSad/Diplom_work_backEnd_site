@@ -58,5 +58,11 @@ ALTER TABLE users DROP COLUMN user_city;
 ALTER TABLE users DROP COLUMN user_reg_date;
 ALTER TABLE users ADD COLUMN user_password VARCHAR NOT NULL default '';
 
+-- INSERT INTO users (user_email, user_first_name, user_last_name, user_phone, user_password, user_image)
+-- values ('user@gmail.com', 'First', 'Last', '+78005553535', 'password', null);
+
+--changeset alikeli:5
+ALTER TABLE users ADD COLUMN user_role varchar NOT NULL ;
+
 INSERT INTO users (user_email, user_first_name, user_last_name, user_phone, user_password, user_image)
-values ('user@gmail.com', 'First', 'Last', '+78005553535', 'password', null);
+values ('user@gmail.com', 'First', 'Last', '+78005553535', 'password', null, 'USER');
