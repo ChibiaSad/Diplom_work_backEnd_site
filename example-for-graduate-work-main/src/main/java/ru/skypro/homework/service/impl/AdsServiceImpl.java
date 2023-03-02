@@ -2,6 +2,7 @@ package ru.skypro.homework.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.AdsDto;
@@ -13,6 +14,7 @@ import ru.skypro.homework.entity.User;
 import ru.skypro.homework.exception.AdsNotFoundException;
 import ru.skypro.homework.mapper.AdsMapper;
 import ru.skypro.homework.repository.AdsRepository;
+import ru.skypro.homework.repository.UserRepository;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,6 +25,7 @@ import java.util.stream.Collectors;
 @Service
 public class AdsServiceImpl {
     private final AdsRepository adsRepository;
+    private final UserRepository userRepository;
     private final ImageServiceImpl imageService;
     private final UserServiceImpl userService;
     private final CommentServiceImpl commentService;
@@ -73,10 +76,12 @@ public class AdsServiceImpl {
         return AdsMapper.INSTANCE.adsToAdsDto(adsRepository.save(ads));
     }
 
-    public ResponseWrapperAdsDto getAdsMe() {
+    public ResponseWrapperAdsDto getAdsMe(Authentication authentication) {
 //    public ResponseWrapperAdsDto getAdsMe(Authentication auth) {
+        String username = authentication.getName();
+        User user = userRepository.getUserByEmail(username).orElseThrow();
         log.debug("method getAdsMe started");
-        List<AdsDto> list = adsRepository.findByAdsAuthorId(userService.getUser().getId()).stream()
+        List<AdsDto> list = adsRepository.findByAdsAuthorId(user.getId()).stream()
                 .map(AdsMapper.INSTANCE::adsToAdsDto)
                 .collect(Collectors.toList());
         return AdsMapper.INSTANCE.adsDtoToWrapperAdsDto(list, list.size());
