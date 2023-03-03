@@ -62,7 +62,8 @@ public interface UsersApi {
     )
 
     @PatchMapping(value = "/me/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    ResponseEntity<UserDto> updateUserImage(@Valid @RequestPart MultipartFile image) throws IOException;
+    ResponseEntity<UserDto> updateUserImage(@Valid @RequestPart MultipartFile image,
+                                            Authentication auth) throws IOException;
 
     @Operation(summary = "readUserImage", tags = "Изображения",
             responses = {

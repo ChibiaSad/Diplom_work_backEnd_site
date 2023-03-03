@@ -180,6 +180,7 @@ public interface AdsApi {
     @PatchMapping(value = "/{ad_pk}/image", produces = MediaType.IMAGE_JPEG_VALUE,
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     ResponseEntity <byte[]> updateImage(@PathVariable("ad_pk") Integer adPk,
-                                        @Valid @RequestPart("image") MultipartFile image) throws IOException;
+                                        @Valid @RequestPart("image") MultipartFile image
+                                        ) throws IOException;
 
 }

@@ -64,5 +64,5 @@ ALTER TABLE users ADD COLUMN user_password VARCHAR NOT NULL default '';
 --changeset alikeli:5
 ALTER TABLE users ADD COLUMN user_role varchar NOT NULL ;
 
-INSERT INTO users (user_email, user_first_name, user_last_name, user_phone, user_password, user_image)
-values ('user@gmail.com', 'First', 'Last', '+78005553535', 'password', null, 'USER');
+INSERT INTO users (user_email, user_first_name, user_last_name, user_phone, user_password, user_image, user_role)
+values ('user@gmail.com', 'First', 'Last', '+78005553535', '{bcrypt}$2a$10$EryGOpG7y4NSHVMtDSjPkuOazwkd4HHnLLBJ.83hu1UC0W9xlib3K', null, 'USER');

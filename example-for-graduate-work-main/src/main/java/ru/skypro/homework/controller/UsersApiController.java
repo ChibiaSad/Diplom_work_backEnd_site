@@ -39,8 +39,8 @@ public class UsersApiController implements UsersApi {
     }
 
     @Override
-    public ResponseEntity<UserDto> updateUserImage(MultipartFile image) throws IOException {
-        return ResponseEntity.ok(userService.updateUserImage(image));
+    public ResponseEntity<UserDto> updateUserImage(MultipartFile image, Authentication auth) throws IOException {
+        return ResponseEntity.ok(userService.updateUserImage(image, auth));
     }
 
     @Override

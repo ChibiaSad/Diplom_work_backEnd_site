@@ -120,7 +120,7 @@ public class UserServiceImpl implements UserDetailsService {
     public NewPasswordDto setPassword(NewPasswordDto body, Authentication auth) {
         log.debug("method setPassword started");
 
-        User user = userRepository.findById(getDefaultUser().getId()).orElseThrow(UserNotFoundException::new);
+        User user = userRepository.getUserByEmail(auth.getName()).orElseThrow(UserNotFoundException::new);
         if (user.getPassword().equals(body.getCurrentPassword())) {
             user.setPassword(body.getNewPassword());
         }
@@ -129,7 +129,7 @@ public class UserServiceImpl implements UserDetailsService {
     }
 
 
-    public UserDto updateUserImage(MultipartFile file) throws IOException {
+    public UserDto updateUserImage(MultipartFile file, Authentication auth) throws IOException {
 //    public byte[] updateUserImage(MultipartFile avatarFile, Authentication auth) {
         log.debug("method updateUserImage started");
         byte[] data = file.getBytes();
@@ -138,7 +138,7 @@ public class UserServiceImpl implements UserDetailsService {
                 file.getOriginalFilename().indexOf("."));
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        User user = userRepository.findById(getDefaultUser().getId()).orElseThrow(UserNotFoundException::new);
+        User user = userRepository.getUserByEmail(auth.getName()).orElseThrow(UserNotFoundException::new);
         if (user.getAvatar() == null) {
             Path path = Paths.get(avatarDir,
                     user.getId() + "_" + LocalDateTime.now().format(format) + extension);
