@@ -87,8 +87,6 @@ public class UserServiceImpl implements UserDetailsService {
 
     public UserDto getUser(Authentication auth) {
         log.debug("method getUser started");
-//        User user = userRepository.findById(getDefaultUser().getId()).orElseThrow(UserNotFoundException::new);
-//        return UserMapper.INSTANCE.userToUserDto(user);
         User user = userRepository.getUserByEmail(auth.getName()).orElseThrow(UserNotFoundException::new);
         return UserMapper.INSTANCE.userToUserDto(user);
     }
@@ -101,10 +99,9 @@ public class UserServiceImpl implements UserDetailsService {
     }
 
 
-    public UserDto updateUser(UserDto userDto) {
-//    public UserDto updateUser(UserDto userDto, Authentication auth) {
+    public UserDto updateUser(UserDto userDto, Authentication auth) {
         log.debug("method updateUser started");
-        User user = userRepository.findById(getDefaultUser().getId()).orElseThrow(UserNotFoundException::new);
+        User user = userRepository.getUserByEmail(auth.getName()).orElseThrow(UserNotFoundException::new);
         if (userDto.getFirstName() != null) {
             user.setFirstName(userDto.getFirstName());
         }
@@ -130,7 +127,6 @@ public class UserServiceImpl implements UserDetailsService {
 
 
     public UserDto updateUserImage(MultipartFile file, Authentication auth) throws IOException {
-//    public byte[] updateUserImage(MultipartFile avatarFile, Authentication auth) {
         log.debug("method updateUserImage started");
         byte[] data = file.getBytes();
         String extension = Objects.requireNonNull(
@@ -170,6 +166,4 @@ public class UserServiceImpl implements UserDetailsService {
     public Optional<User> userExists(String username) {
         return userRepository.getUserByEmail(username);
     }
-
-
 }

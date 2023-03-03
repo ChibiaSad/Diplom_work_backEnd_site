@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.NewPasswordDto;
 import ru.skypro.homework.dto.UserDto;
 
-import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import java.io.IOException;
 
@@ -51,7 +50,8 @@ public interface UsersApi {
                     @ApiResponse(responseCode = "404", description = "Not Found")}
     )
     @PatchMapping("/me")
-    ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto body);
+    ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto body,
+                                       Authentication auth);
 
     @Operation(summary = "updateUserImage", description = "UpdateUserImage", tags = {"Пользователи"},
             responses = {

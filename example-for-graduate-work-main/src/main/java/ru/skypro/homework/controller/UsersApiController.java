@@ -34,8 +34,8 @@ public class UsersApiController implements UsersApi {
     }
 
     @Override
-    public ResponseEntity<UserDto> updateUser(UserDto body) {
-        return ResponseEntity.ok(userService.updateUser(body));
+    public ResponseEntity<UserDto> updateUser(UserDto body, Authentication auth) {
+        return ResponseEntity.ok(userService.updateUser(body, auth));
     }
 
     @Override
