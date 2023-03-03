@@ -2,17 +2,17 @@ package ru.skypro.homework.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import ru.skypro.homework.dto.AdsDto;
-import ru.skypro.homework.dto.CreateAdsDto;
-import ru.skypro.homework.dto.FullAdsDto;
-import ru.skypro.homework.dto.ResponseWrapperAdsDto;
+import ru.skypro.homework.dto.*;
 import ru.skypro.homework.entity.Ads;
 import ru.skypro.homework.entity.User;
 import ru.skypro.homework.exception.AdsNotFoundException;
+import ru.skypro.homework.exception.UserNotFoundException;
 import ru.skypro.homework.mapper.AdsMapper;
 import ru.skypro.homework.repository.AdsRepository;
+import ru.skypro.homework.repository.UserRepository;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,13 +23,14 @@ import java.util.stream.Collectors;
 @Service
 public class AdsServiceImpl {
     private final AdsRepository adsRepository;
+    private final UserRepository userRepository;
     private final ImageServiceImpl imageService;
-    private final UserServiceImpl userService;
     private final CommentServiceImpl commentService;
 
-    public AdsDto addAdsToDb(CreateAdsDto createAdsDto, MultipartFile images) throws IOException {
+    public AdsDto addAdsToDb(CreateAdsDto createAdsDto, MultipartFile images,
+                             Authentication auth) throws IOException {
         log.debug("method addAdsToDb started");
-        User user = userService.getDefaultUser();
+        User user = userRepository.getUserByEmail(auth.getName()).orElseThrow(UserNotFoundException::new);
         Ads ads = AdsMapper.INSTANCE.createAdsDtoToAds(createAdsDto);
         ads.setUser(user);
         ads = adsRepository.save(ads);
@@ -45,11 +46,16 @@ public class AdsServiceImpl {
         return AdsMapper.INSTANCE.adsDtoToWrapperAdsDto(list, list.size());
     }
 
-    public void deleteAds(Integer adsPk) {
+    public void deleteAds(Integer adsPk, Authentication auth) {
         log.debug("method deleteAds started");
-        commentService.deleteAllAdsComment(adsPk);
-        imageService.deleteAdsImage(adsPk);
-        adsRepository.deleteById(adsPk);
+        Ads toDelete = adsRepository.findById(adsPk).orElseThrow(AdsNotFoundException::new);
+        String role = userRepository.getRoleByEmail(auth.getName()).orElseThrow(UserNotFoundException::new);
+
+        if(toDelete.getUser().getEmail().equals(auth.getName()) || role.equals("ADMIN")){
+            commentService.deleteAllAdsComment(adsPk);
+            imageService.deleteAdsImage(adsPk);
+            adsRepository.deleteById(adsPk);
+        }
     }
 
     public FullAdsDto getAds(Integer adsPk) {
@@ -58,25 +64,29 @@ public class AdsServiceImpl {
         return AdsMapper.INSTANCE.adsToFullAdsDto(ads);
     }
 
-    public AdsDto updateAds(int adsPk, CreateAdsDto createAdsDto) {
+    public AdsDto updateAds(int adsPk, CreateAdsDto createAdsDto, Authentication auth) {
         log.debug("method updateAds started");
         Ads ads = adsRepository.findById(adsPk).orElseThrow(AdsNotFoundException::new);
-        if (createAdsDto.getDescription() != null) {
-            ads.setDescription(createAdsDto.getDescription());
-        }
-        if (createAdsDto.getPrice() != null) {
-            ads.setPrice(createAdsDto.getPrice());
-        }
-        if (createAdsDto.getTitle() != null) {
-            ads.setTitle(createAdsDto.getTitle());
+        String role = userRepository.getRoleByEmail(auth.getName()).orElseThrow(UserNotFoundException::new);
+
+        if(role.equals("ADMIN") || ads.getUser().getEmail().equals(auth.getName())){
+            if (createAdsDto.getDescription() != null) {
+                ads.setDescription(createAdsDto.getDescription());
+            }
+            if (createAdsDto.getPrice() != null) {
+                ads.setPrice(createAdsDto.getPrice());
+            }
+            if (createAdsDto.getTitle() != null) {
+                ads.setTitle(createAdsDto.getTitle());
+            }
         }
         return AdsMapper.INSTANCE.adsToAdsDto(adsRepository.save(ads));
     }
 
-    public ResponseWrapperAdsDto getAdsMe() {
-//    public ResponseWrapperAdsDto getAdsMe(Authentication auth) {
+    public ResponseWrapperAdsDto getAdsMe(Authentication auth) {
         log.debug("method getAdsMe started");
-        List<AdsDto> list = adsRepository.findByAdsAuthorId(userService.getUser().getId()).stream()
+        User user = userRepository.getUserByEmail(auth.getName()).orElseThrow();
+        List<AdsDto> list = adsRepository.findByAdsAuthorId(user.getId()).stream()
                 .map(AdsMapper.INSTANCE::adsToAdsDto)
                 .collect(Collectors.toList());
         return AdsMapper.INSTANCE.adsDtoToWrapperAdsDto(list, list.size());

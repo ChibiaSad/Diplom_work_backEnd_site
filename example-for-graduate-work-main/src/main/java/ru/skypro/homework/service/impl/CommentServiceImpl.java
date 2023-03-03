@@ -2,6 +2,7 @@ package ru.skypro.homework.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import ru.skypro.homework.dto.CommentDto;
 import ru.skypro.homework.dto.ResponseWrapperCommentDto;
@@ -10,6 +11,7 @@ import ru.skypro.homework.entity.Comment;
 import ru.skypro.homework.entity.User;
 import ru.skypro.homework.exception.AdsNotFoundException;
 import ru.skypro.homework.exception.CommentNotFoundException;
+import ru.skypro.homework.exception.UserNotFoundException;
 import ru.skypro.homework.mapper.CommentMapper;
 import ru.skypro.homework.repository.AdsRepository;
 import ru.skypro.homework.repository.CommentRepository;
@@ -26,15 +28,13 @@ import java.util.stream.Collectors;
 public class CommentServiceImpl{
     private final AdsRepository adsRepository;
     private final UserRepository userRepository;
-    private final UserServiceImpl userService;
     private final CommentRepository commentRepository;
 
 
-    public CommentDto addCommentToDb(Integer adsPk, CommentDto commentDto, String userName) {
+    public CommentDto addCommentToDb(Integer adsPk, CommentDto commentDto, Authentication auth) {
         log.debug("method addCommentToDb started");
         Ads ads = adsRepository.findById(adsPk).orElseThrow(AdsNotFoundException::new);
-//        User user = userRepository.findById(commentDto.getAuthor()).orElseThrow(UserNotFoundException::new); //id не приходит
-        User user = userService.getDefaultUser();
+        User user = userRepository.getUserByEmail(auth.getName()).orElseThrow(UserNotFoundException::new);
         Comment comment = new Comment();
         comment.setAuthor(user);
         comment.setAds(ads);
@@ -65,19 +65,28 @@ public class CommentServiceImpl{
     }
 
 
-    public CommentDto updateAdsComment(Integer adsPk, Integer id, CommentDto commentDto) {
+    public CommentDto updateAdsComment(Integer adsPk, Integer id, CommentDto commentDto, Authentication auth) {
         log.debug("method updateAdsComment started");
         Comment comment = commentRepository.findByIdAndAdsId(id, adsPk).orElseThrow(CommentNotFoundException::new);
-        if(commentDto.getText() != null){
-            comment.setText(commentDto.getText());
+        String role = userRepository.getRoleByEmail(auth.getName()).orElseThrow(UserNotFoundException::new);
+
+        if(comment.getAuthor().getEmail().equals(auth.getName()) || role.equals("ADMIN")){
+            if(commentDto.getText() != null){
+                comment.setText(commentDto.getText());
+            }
         }
         return CommentMapper.INSTANCE.commentToCommentDto(commentRepository.save(comment));
     }
 
 
-    public void deleteAdsComment(Integer adsPk, Integer id) {
+    public void deleteAdsComment(Integer adsPk, Integer id, Authentication auth) {
         log.debug("method deleteAdsComment started");
-        commentRepository.deleteByIdAndAdsId(id, adsPk);
+        Comment comment = commentRepository.findByIdAndAdsId(id, adsPk).orElseThrow(CommentNotFoundException::new);
+        String role = userRepository.getRoleByEmail(auth.getName()).orElseThrow(UserNotFoundException::new);
+
+        if(comment.getAuthor().getEmail().equals(auth.getName()) || role.equals("ADMIN")){
+            commentRepository.deleteByIdAndAdsId(id, adsPk);
+        }
     }
 
     public void deleteAllAdsComment(Integer adsPk) {

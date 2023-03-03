@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,7 +28,7 @@ public interface UsersApi {
                     @ApiResponse(responseCode = "404", description = "Not Found")}
     )
     @GetMapping("/me")
-    ResponseEntity<UserDto> getUser();
+    ResponseEntity<UserDto> getUser(Authentication auth);
 
     @Operation(summary = "setPassword", tags = {"Пользователи"},
             responses = {
@@ -36,8 +37,9 @@ public interface UsersApi {
                     @ApiResponse(responseCode = "403", description = "Forbidden"),
                     @ApiResponse(responseCode = "404", description = "Not Found")}
     )
+
     @PostMapping("/set_password")
-    ResponseEntity<NewPasswordDto> setPassword(@Valid @RequestBody NewPasswordDto body);
+    ResponseEntity<NewPasswordDto> setPassword(@Valid @RequestBody NewPasswordDto body, Authentication auth);
 
     @Operation(summary = "updateUser", tags = {"Пользователи"},
             responses = {
@@ -48,7 +50,8 @@ public interface UsersApi {
                     @ApiResponse(responseCode = "404", description = "Not Found")}
     )
     @PatchMapping("/me")
-    ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto body);
+    ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto body,
+                                       Authentication auth);
 
     @Operation(summary = "updateUserImage", description = "UpdateUserImage", tags = {"Пользователи"},
             responses = {
@@ -57,8 +60,10 @@ public interface UsersApi {
                                     schema = @Schema(implementation = UserDto.class))),
                     @ApiResponse(responseCode = "404", description = "Not Found")}
     )
+
     @PatchMapping(value = "/me/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    ResponseEntity<UserDto> updateUserImage(@Valid @RequestPart MultipartFile image) throws IOException;
+    ResponseEntity<UserDto> updateUserImage(@Valid @RequestPart MultipartFile image,
+                                            Authentication auth) throws IOException;
 
     @Operation(summary = "readUserImage", tags = "Изображения",
             responses = {

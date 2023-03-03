@@ -2,6 +2,7 @@ package ru.skypro.homework.entity;
 
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
@@ -35,6 +36,9 @@ public class User {
     private Avatar avatar;
     @OneToMany(mappedBy = "user")
     private Collection<Ads> adsCollection;
+    @Column(name = "user_role")
+    private String role;
+
 
     @Override
     public boolean equals(Object o) {
@@ -60,6 +64,7 @@ public class User {
                 ", password='" + password + '\'' +
                 ", avatar=" + avatar +
                 ", adsCollection=" + adsCollection +
+                ", role='" + role + '\'' +
                 ", comment=" + comment +
                 '}';
     }

@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.controller.api.AdsApi;
@@ -24,16 +25,16 @@ public class AdsApiController implements AdsApi {
     private final CommentServiceImpl commentService;
     private final ImageServiceImpl imageService;
 
-    public ResponseEntity<AdsDto> addAds(CreateAdsDto properties, MultipartFile image) throws IOException {
-        return ResponseEntity.status(HttpStatus.CREATED).body(adsService.addAdsToDb(properties, image));
+    public ResponseEntity<AdsDto> addAds(CreateAdsDto properties, MultipartFile image, Authentication auth) throws IOException {
+        return ResponseEntity.status(HttpStatus.CREATED).body(adsService.addAdsToDb(properties, image, auth));
     }
 
-    public ResponseEntity<CommentDto> addComments(Integer adPk, CommentDto body) {
-        return ResponseEntity.ok(commentService.addCommentToDb(adPk, body, ""));
+    public ResponseEntity<CommentDto> addComments(Integer adPk, CommentDto body, Authentication auth) {
+        return ResponseEntity.ok(commentService.addCommentToDb(adPk, body, auth));
     }
 
-    public ResponseEntity<Void> deleteComments(Integer adPk, Integer id) {
-        commentService.deleteAdsComment(adPk, id);
+    public ResponseEntity<Void> deleteComments(Integer adPk, Integer id, Authentication auth) {
+        commentService.deleteAdsComment(adPk, id, auth);
         return ResponseEntity.ok().build();
     }
 
@@ -45,8 +46,8 @@ public class AdsApiController implements AdsApi {
         return ResponseEntity.ok(adsService.getAds(id));
     }
 
-    public ResponseEntity<ResponseWrapperAdsDto> getAdsMeUsingGET() {
-        return ResponseEntity.ok(adsService.getAdsMe());
+    public ResponseEntity<ResponseWrapperAdsDto> getAdsMeUsingGET(Authentication auth) {
+        return ResponseEntity.ok(adsService.getAdsMe(auth));
     }
 
     public ResponseEntity<ResponseWrapperCommentDto> getComments(Integer adPk) {
@@ -57,22 +58,22 @@ public class AdsApiController implements AdsApi {
         return ResponseEntity.ok(commentService.getAdsComment(adPk, id));
     }
 
-    public ResponseEntity<Void> removeAds(Integer id) {
-        adsService.deleteAds(id);
+    public ResponseEntity<Void> removeAds(Integer id, Authentication auth) {
+        adsService.deleteAds(id, auth);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    public ResponseEntity<AdsDto> updateAds(Integer id, CreateAdsDto body) {
-        return ResponseEntity.ok(adsService.updateAds(id, body));
+    public ResponseEntity<AdsDto> updateAds(Integer id, CreateAdsDto body, Authentication auth) {
+        return ResponseEntity.ok(adsService.updateAds(id, body, auth));
     }
 
-    public ResponseEntity<CommentDto> updateComments(Integer adPk, Integer id, CommentDto body) {
-        return ResponseEntity.ok(commentService.updateAdsComment(adPk, id, body));
+    public ResponseEntity<CommentDto> updateComments(Integer adPk, Integer id, CommentDto body, Authentication auth) {
+        return ResponseEntity.ok(commentService.updateAdsComment(adPk, id, body, auth));
     }
 
     //почему-то при update картинки ads фронт обращается сюда
-    public ResponseEntity<byte[]> updateImage(Integer adPk, MultipartFile image) throws IOException {
-        byte[] data = imageService.updateImage(adPk, image);
+    public ResponseEntity<byte[]> updateImage(Integer adPk, MultipartFile image, Authentication auth) throws IOException {
+        byte[] data = imageService.updateImage(adPk, image, auth);
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_JPEG)
                 .contentLength(data.length)

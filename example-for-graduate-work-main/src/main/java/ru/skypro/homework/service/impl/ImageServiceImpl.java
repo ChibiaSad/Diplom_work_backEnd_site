@@ -3,12 +3,15 @@ package ru.skypro.homework.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.entity.Ads;
 import ru.skypro.homework.entity.Image;
 import ru.skypro.homework.exception.ImageNotFoundException;
+import ru.skypro.homework.exception.UserNotFoundException;
 import ru.skypro.homework.repository.ImageRepository;
+import ru.skypro.homework.repository.UserRepository;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -25,6 +28,7 @@ public class ImageServiceImpl{
     @Value("${images.directory}")
     private String imageDir;
     private final ImageRepository imageRepository;
+    private final UserRepository userRepository;
 
 
     public Image createImage(Ads ads, MultipartFile file) throws IOException {
@@ -45,14 +49,19 @@ public class ImageServiceImpl{
         return imageRepository.save(image);
     }
 
-    public byte[] updateImage(Integer id, MultipartFile file) throws IOException {
+    public byte[] updateImage(Integer id, MultipartFile file, Authentication auth) throws IOException {
         log.debug("method updateImage started");
         Image img = imageRepository.findByAdsId(id).orElseThrow(ImageNotFoundException::new);
-        Path path = Paths.get(img.getFilePath());
-        byte[] data = file.getBytes();
-        Files.createDirectories(path.getParent());
-        Files.write(path, data);
-        return data;
+        String role = userRepository.getRoleByEmail(auth.getName()).orElseThrow(UserNotFoundException::new);
+
+        if(img.getAds().getUser().getEmail().equals(auth.getName()) || role.equals("ADMIN")){
+            Path path = Paths.get(img.getFilePath());
+            byte[] data = file.getBytes();
+            Files.createDirectories(path.getParent());
+            Files.write(path, data);
+            return data;
+        }
+        return new byte[0];
     }
 
     public byte[] getImageById(Integer imageId) throws IOException {
