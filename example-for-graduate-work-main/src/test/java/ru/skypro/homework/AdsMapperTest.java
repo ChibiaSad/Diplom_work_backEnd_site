@@ -90,7 +90,7 @@ public class AdsMapperTest {
         response.setResults(listDto);
         response.setCount(listAds.size());
 
-        assertThat(AdsMapper.INSTANCE.AdsDtoToWrapperAdsDto(listDto, listDto.size())).isNotNull().isEqualTo(response);
+        assertThat(AdsMapper.INSTANCE.adsDtoToWrapperAdsDto(listDto, listDto.size())).isNotNull().isEqualTo(response);
     }
 
     @Test
@@ -106,7 +106,7 @@ public class AdsMapperTest {
         ads.setPrice(125);
         ads.setDescription("Вкусный пирог");
 
-        assertThat(AdsMapper.INSTANCE.CreateAdsDtoToAds(createAdsDto1)).isEqualTo(ads);
+        assertThat(AdsMapper.INSTANCE.createAdsDtoToAds(createAdsDto1)).isEqualTo(ads);
     }
 
     @Test
