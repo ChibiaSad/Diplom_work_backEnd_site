@@ -2,7 +2,7 @@
 ![alt text](https://github.com/alikeli/images/blob/main/Screenshot_2022-03-14_at_15.10.20.png) 
 # Бэкенд-часть платформы по перепродаже вещей
 
-Дипломный проект команды New developers:
+Авторы проекта:
 * Николаев Дмитрий [@ChibiaSad](https://github.com/ChibiaSad)
 * Аликрицких Елизавета  [@alikeli](https://github.com/alikeli)
 * Платонова Наталья  [@NataliyaPlaton](https://github.com/NataliyaPlaton)
