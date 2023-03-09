@@ -30,3 +30,13 @@
 Тестирование 
 * <img src="https://github.com/alikeli/images/blob/main/png-transparent-junit-test-automation-software-testing-unit-testing-software-framework-others-text-trademark-logo.png" width="50"/> &nbsp;&nbsp;  JUnit 
 * <img src="https://github.com/alikeli/images/blob/main/logo%402x.png" width="50"/> &nbsp;&nbsp;  Mockito 
+
+
+Для запуска нужно:
+
+* Клонировать проект в среду разработки
+* Прописать properties в файле application.properties
+* Запустить [Docker](https://www.docker.com/)
+* Запустить Docker образ
+* Запустить метод main в файле HomeworkApplication.java
+* После выполнения всех действий сайт будет доступен по ссылке http://localhost:3000
