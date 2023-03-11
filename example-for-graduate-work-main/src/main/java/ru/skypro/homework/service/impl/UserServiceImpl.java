@@ -61,27 +61,10 @@ public class UserServiceImpl implements UserDetailsService {
     @Value("${avatars.directory}")
     private String avatarDir;
 
-    public User getDefaultUser() {
-        log.debug("method getDefaultUser started");
-        User user = new User();
-        user.setId(1);
-        user.setEmail("user@gmail.com");
-        user.setPhone("+78005553535");
-        user.setFirstName("First");
-        user.setLastName("Last");
-        return user;
-    }
-
     public void createUser(RegisterReq registerReqDto) {
         log.debug("method createUser started");
-        User user = new User();
-        user.setEmail(registerReqDto.getUsername());
-        user.setPassword(registerReqDto.getPassword());
-        user.setFirstName(registerReqDto.getFirstName());
-        user.setLastName(registerReqDto.getLastName());
-        user.setPhone(registerReqDto.getPhone());
+        User user = UserMapper.INSTANCE.registerReqToUser(registerReqDto);
         user.setRole("USER");
-
         userRepository.save(user);
     }
 
@@ -157,13 +140,13 @@ public class UserServiceImpl implements UserDetailsService {
         return UserMapper.INSTANCE.userToUserDto(user);
     }
 
-    public UserDto getUsersMe(Authentication auth) {
-        log.debug("method getUsersMe started");
-        return null;
-    }
-
 
     public Optional<User> userExists(String username) {
         return userRepository.getUserByEmail(username);
+    }
+
+    public boolean checkPermission(Authentication auth, String author){
+        String role = userRepository.getRoleByEmail(auth.getName()).orElseThrow(UserNotFoundException::new);
+        return role.equals("ADMIN") || author.equals(auth.getName());
     }
 }

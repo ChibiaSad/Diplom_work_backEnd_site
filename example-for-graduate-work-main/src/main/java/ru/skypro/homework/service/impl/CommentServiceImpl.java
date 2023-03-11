@@ -29,6 +29,7 @@ public class CommentServiceImpl{
     private final AdsRepository adsRepository;
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
+    private final UserServiceImpl userService;
 
 
     public CommentDto addCommentToDb(Integer adsPk, CommentDto commentDto, Authentication auth) {
@@ -68,9 +69,7 @@ public class CommentServiceImpl{
     public CommentDto updateAdsComment(Integer adsPk, Integer id, CommentDto commentDto, Authentication auth) {
         log.debug("method updateAdsComment started");
         Comment comment = commentRepository.findByIdAndAdsId(id, adsPk).orElseThrow(CommentNotFoundException::new);
-        String role = userRepository.getRoleByEmail(auth.getName()).orElseThrow(UserNotFoundException::new);
-
-        if(comment.getAuthor().getEmail().equals(auth.getName()) || role.equals("ADMIN")){
+        if(userService.checkPermission(auth, comment.getAuthor().getEmail())){
             if(commentDto.getText() != null){
                 comment.setText(commentDto.getText());
             }
@@ -82,9 +81,7 @@ public class CommentServiceImpl{
     public void deleteAdsComment(Integer adsPk, Integer id, Authentication auth) {
         log.debug("method deleteAdsComment started");
         Comment comment = commentRepository.findByIdAndAdsId(id, adsPk).orElseThrow(CommentNotFoundException::new);
-        String role = userRepository.getRoleByEmail(auth.getName()).orElseThrow(UserNotFoundException::new);
-
-        if(comment.getAuthor().getEmail().equals(auth.getName()) || role.equals("ADMIN")){
+        if(userService.checkPermission(auth, comment.getAuthor().getEmail())){
             commentRepository.deleteByIdAndAdsId(id, adsPk);
         }
     }
