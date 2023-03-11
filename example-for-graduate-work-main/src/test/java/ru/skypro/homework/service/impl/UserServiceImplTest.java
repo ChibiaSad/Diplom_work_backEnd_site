@@ -7,13 +7,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import ru.skypro.homework.dto.NewPasswordDto;
 import ru.skypro.homework.dto.RegisterReq;
 import ru.skypro.homework.dto.Role;
-import ru.skypro.homework.dto.UserDto;
 import ru.skypro.homework.entity.Avatar;
 import ru.skypro.homework.entity.User;
-import ru.skypro.homework.mapper.UserMapper;
 import ru.skypro.homework.repository.AvatarRepository;
 import ru.skypro.homework.repository.UserRepository;
 
@@ -34,18 +31,6 @@ class UserServiceImplTest {
 
     @InjectMocks
     private UserServiceImpl userService;
-
-    @Test
-    void getDefaultUser() {
-        User user = new User();
-        user.setId(1);
-        user.setEmail("user@gmail.com");
-        user.setPhone("+78005553535");
-        user.setFirstName("First");
-        user.setLastName("Last");
-
-        assertThat(userService.getDefaultUser()).isEqualTo(user);
-    }
 
     @Test
     void createUser() {

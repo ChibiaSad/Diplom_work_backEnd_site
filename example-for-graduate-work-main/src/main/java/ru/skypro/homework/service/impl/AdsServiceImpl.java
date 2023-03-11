@@ -26,6 +26,7 @@ public class AdsServiceImpl {
     private final UserRepository userRepository;
     private final ImageServiceImpl imageService;
     private final CommentServiceImpl commentService;
+    private final UserServiceImpl userService;
 
     public AdsDto addAdsToDb(CreateAdsDto createAdsDto, MultipartFile images,
                              Authentication auth) throws IOException {
@@ -49,9 +50,7 @@ public class AdsServiceImpl {
     public void deleteAds(Integer adsPk, Authentication auth) {
         log.debug("method deleteAds started");
         Ads toDelete = adsRepository.findById(adsPk).orElseThrow(AdsNotFoundException::new);
-        String role = userRepository.getRoleByEmail(auth.getName()).orElseThrow(UserNotFoundException::new);
-
-        if(toDelete.getUser().getEmail().equals(auth.getName()) || role.equals("ADMIN")){
+        if(userService.checkPermission(auth, toDelete.getUser().getEmail())){
             commentService.deleteAllAdsComment(adsPk);
             imageService.deleteAdsImage(adsPk);
             adsRepository.deleteById(adsPk);
@@ -67,9 +66,7 @@ public class AdsServiceImpl {
     public AdsDto updateAds(int adsPk, CreateAdsDto createAdsDto, Authentication auth) {
         log.debug("method updateAds started");
         Ads ads = adsRepository.findById(adsPk).orElseThrow(AdsNotFoundException::new);
-        String role = userRepository.getRoleByEmail(auth.getName()).orElseThrow(UserNotFoundException::new);
-
-        if(role.equals("ADMIN") || ads.getUser().getEmail().equals(auth.getName())){
+        if(userService.checkPermission(auth, ads.getUser().getEmail())){
             if (createAdsDto.getDescription() != null) {
                 ads.setDescription(createAdsDto.getDescription());
             }
