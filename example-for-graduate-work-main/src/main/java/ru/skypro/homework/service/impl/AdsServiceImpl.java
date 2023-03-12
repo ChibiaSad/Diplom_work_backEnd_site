@@ -50,7 +50,7 @@ public class AdsServiceImpl {
     public void deleteAds(Integer adsPk, Authentication auth) {
         log.debug("method deleteAds started");
         Ads toDelete = adsRepository.findById(adsPk).orElseThrow(AdsNotFoundException::new);
-        if(userService.checkPermission(auth, toDelete.getUser().getEmail())){
+        if (userService.checkPermission(auth, toDelete.getUser().getEmail())) {
             commentService.deleteAllAdsComment(adsPk);
             imageService.deleteAdsImage(adsPk);
             adsRepository.deleteById(adsPk);
@@ -66,7 +66,7 @@ public class AdsServiceImpl {
     public AdsDto updateAds(int adsPk, CreateAdsDto createAdsDto, Authentication auth) {
         log.debug("method updateAds started");
         Ads ads = adsRepository.findById(adsPk).orElseThrow(AdsNotFoundException::new);
-        if(userService.checkPermission(auth, ads.getUser().getEmail())){
+        if (userService.checkPermission(auth, ads.getUser().getEmail())) {
             if (createAdsDto.getDescription() != null) {
                 ads.setDescription(createAdsDto.getDescription());
             }
@@ -90,7 +90,7 @@ public class AdsServiceImpl {
     }
 
     //Поиск объявлений по полному названию или части названия
-    public ResponseWrapperAdsDto findAdsByTitle (String title){
+    public ResponseWrapperAdsDto findAdsByTitle(String title) {
         log.debug("method findAdsByTitle started");
         List<AdsDto> list = adsRepository.findAdsByTitleContainingIgnoreCase(title).stream().
                 map(AdsMapper.INSTANCE::adsToAdsDto)
