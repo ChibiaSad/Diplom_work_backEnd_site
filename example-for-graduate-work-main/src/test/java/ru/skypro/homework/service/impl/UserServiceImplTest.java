@@ -7,10 +7,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.Authentication;
+import ru.skypro.homework.dto.NewPasswordDto;
 import ru.skypro.homework.dto.RegisterReq;
 import ru.skypro.homework.dto.Role;
+import ru.skypro.homework.dto.UserDto;
 import ru.skypro.homework.entity.Avatar;
 import ru.skypro.homework.entity.User;
+import ru.skypro.homework.mapper.UserMapper;
 import ru.skypro.homework.repository.AvatarRepository;
 import ru.skypro.homework.repository.UserRepository;
 
@@ -64,18 +68,20 @@ class UserServiceImplTest {
     @Test
     void getUser() {
 
-//        User user = new User();
-//        user.setId(1);
-//        user.setEmail("user@gmail.com");
-//        user.setPhone("+78005553535");
-//        user.setFirstName("First");
-//        user.setLastName("Last");
-//
-//        Mockito.when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
-//
-//        UserDto userDto = UserMapper.INSTANCE.userToUserDto(user);
-//
-//        assertThat(userService.getUser()).isEqualTo(userDto);
+        Authentication auth = Mockito.mock(Authentication.class);
+
+        User user = new User();
+        user.setId(1);
+        user.setEmail("user@gmail.com");
+        user.setPhone("+78005553535");
+        user.setFirstName("First");
+        user.setLastName("Last");
+
+        Mockito.when(userRepository.getUserByEmail(auth.getName())).thenReturn(Optional.of(user));
+
+        UserDto userDto = UserMapper.INSTANCE.userToUserDto(user);
+
+        assertThat(userService.getUser(auth)).isEqualTo(userDto);
     }
 
     @Test
@@ -106,40 +112,45 @@ class UserServiceImplTest {
 
     @Test
     void updateUser() {
-//        User user = new User();
-//        user.setId(1);
-//        user.setEmail("user@gmail.com");
-//        user.setPhone("+78005553535");
-//        user.setFirstName("First");
-//        user.setLastName("Last");
-//
-//        UserDto userDto = UserMapper.INSTANCE.userToUserDto(user);
-//
-//        Mockito.when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
-//        Mockito.when(userRepository.save(user)).thenReturn(user);
-//
-//        assertThat(userService.updateUser(userDto)).isEqualTo(userDto);
+
+        Authentication auth = Mockito.mock(Authentication.class);
+
+        User user = new User();
+        user.setId(1);
+        user.setEmail("user@gmail.com");
+        user.setPhone("+78005553535");
+        user.setFirstName("First");
+        user.setLastName("Last");
+
+        UserDto userDto = UserMapper.INSTANCE.userToUserDto(user);
+
+        Mockito.when(userRepository.getUserByEmail(auth.getName())).thenReturn(Optional.of(user));
+        Mockito.when(userRepository.save(user)).thenReturn(user);
+
+        assertThat(userService.updateUser(userDto, auth)).isEqualTo(userDto);
 
     }
 
     @Test
     void setPassword() {
-//        User user = new User();
-//        user.setId(1);
-//        user.setEmail("user@gmail.com");
-//        user.setPhone("+78005553535");
-//        user.setFirstName("First");
-//        user.setLastName("Last");
-//        user.setPassword("pass1234");
-//
-//        NewPasswordDto newPasswordDto = new NewPasswordDto();
-//        newPasswordDto.setNewPassword("password1");
-//        newPasswordDto.setCurrentPassword("password");
-//
-//        Mockito.when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
-//        Mockito.when(userRepository.save(user)).thenReturn(user);
-//
-//        assertThat(userService.setPassword(newPasswordDto)).isEqualTo(newPasswordDto);
+        Authentication auth = Mockito.mock(Authentication.class);
+
+        User user = new User();
+        user.setId(1);
+        user.setEmail("user@gmail.com");
+        user.setPhone("+78005553535");
+        user.setFirstName("First");
+        user.setLastName("Last");
+        user.setPassword("pass1234");
+
+        NewPasswordDto newPasswordDto = new NewPasswordDto();
+        newPasswordDto.setNewPassword("password1");
+        newPasswordDto.setCurrentPassword("password");
+
+        Mockito.when(userRepository.getUserByEmail(auth.getName())).thenReturn(Optional.of(user));
+        Mockito.when(userRepository.save(user)).thenReturn(user);
+
+        assertThat(userService.setPassword(newPasswordDto, auth)).isEqualTo(newPasswordDto);
 
     }
 
