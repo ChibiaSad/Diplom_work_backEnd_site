@@ -7,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.Authentication;
 import ru.skypro.homework.dto.CommentDto;
 import ru.skypro.homework.dto.ResponseWrapperCommentDto;
 import ru.skypro.homework.entity.Ads;
@@ -24,6 +25,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -44,39 +46,41 @@ class CommentServiceImplTest {
     @Test
     void addCommentToDb() {
 
-//        Integer adsPk = 1;
-//
-//        User user = new User();
-//        user.setId(1);
-//        user.setEmail("user@gmail.com");
-//        user.setPhone("+78005553535");
-//        user.setFirstName("First");
-//        user.setLastName("Last");
-//
-//        Ads ads = new Ads();
-//        ads.setId(1);
-//        ads.setTitle("Пирог");
-//        ads.setPrice(125);
-//        ads.setDescription("Вкусный пирог");
-//        ads.setUser(user);
-//
-//        Mockito.when(adsRepository.findById(adsPk)).thenReturn(Optional.of(ads));
-//        Mockito.when(userService.getDefaultUser()).thenReturn(user);
-//
-//        CommentDto commentDto = new CommentDto();
-//        commentDto.setAuthor(1);
-//        commentDto.setText("Очень вкусный пирог");
-//        commentDto.setCreatedAt("2023-02-25");
-//
-//        Comment comment = new Comment();
-//        comment.setAuthor(user);
-//        comment.setAds(ads);
-//        comment.setText(commentDto.getText());
-//        comment.setCreatedAt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-//
-//        Mockito.when(commentRepository.save(comment)).thenReturn(comment);
-//
-//        assertThat(commentService.addCommentToDb(adsPk, commentDto, "Ivan")).isNotNull().isEqualTo(commentDto);
+        Integer adsPk = 1;
+
+        User user = new User();
+        user.setId(1);
+        user.setEmail("user@gmail.com");
+        user.setPhone("+78005553535");
+        user.setFirstName("First");
+        user.setLastName("Last");
+
+        Ads ads = new Ads();
+        ads.setId(1);
+        ads.setTitle("Пирог");
+        ads.setPrice(125);
+        ads.setDescription("Вкусный пирог");
+        ads.setUser(user);
+
+        Authentication auth = Mockito.mock(Authentication.class);
+
+        Mockito.when(adsRepository.findById(adsPk)).thenReturn(Optional.of(ads));
+        Mockito.when(userRepository.getUserByEmail(auth.getName())).thenReturn(Optional.of(user));
+
+        CommentDto commentDto = new CommentDto();
+        commentDto.setAuthor(1);
+        commentDto.setText("Очень вкусный пирог");
+        commentDto.setCreatedAt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+
+        Comment comment = new Comment();
+        comment.setAuthor(user);
+        comment.setAds(ads);
+        comment.setText(commentDto.getText());
+        comment.setCreatedAt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+
+        Mockito.when(commentRepository.save(comment)).thenReturn(comment);
+
+        assertThat(commentService.addCommentToDb(adsPk, commentDto, auth)).isNotNull().isEqualTo(commentDto);
     }
 
     @Test
@@ -88,17 +92,17 @@ class CommentServiceImplTest {
         CommentDto commentDto = new CommentDto();
         commentDto.setAuthor(1);
         commentDto.setText("Очень вкусный пирог");
-        commentDto.setCreatedAt("2023-02-25");
+        commentDto.setCreatedAt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 
         CommentDto commentDto1 = new CommentDto();
         commentDto1.setAuthor(1);
         commentDto1.setText("Очень вкусный торт");
-        commentDto1.setCreatedAt("2023-02-25");
+        commentDto1.setCreatedAt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 
         CommentDto commentDto2 = new CommentDto();
         commentDto2.setAuthor(1);
         commentDto2.setText("Очень вкусный коктейль");
-        commentDto2.setCreatedAt("2023-02-25");
+        commentDto2.setCreatedAt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 
         listCommentDto.add(commentDto);
         listCommentDto.add(commentDto1);
@@ -187,56 +191,81 @@ class CommentServiceImplTest {
 
     @Test
     void updateAdsComment() {
-//        Integer id = 1;
-//        Integer adsPk = 3;
-//
-//        User user = new User();
-//        user.setId(1);
-//        user.setEmail("user@gmail.com");
-//        user.setPhone("+78005553535");
-//        user.setFirstName("First");
-//        user.setLastName("Last");
-//
-//        Ads ads = new Ads();
-//        ads.setId(1);
-//        ads.setTitle("Пирог");
-//        ads.setPrice(125);
-//        ads.setDescription("Вкусный пирог");
-//        ads.setUser(user);
-//
-//        Comment comment = new Comment();
-//        comment.setAuthor(user);
-//        comment.setAds(ads);
-//        comment.setText("Очень вкусный пирог с яблоками");
-//        comment.setCreatedAt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-//
-//        CommentDto commentDto = CommentMapper.INSTANCE.commentToCommentDto(comment);
-//
-//        Mockito.when(commentRepository.findByIdAndAdsId(id, adsPk)).thenReturn(Optional.of(comment));
-//        Mockito.when(commentRepository.save(comment)).thenReturn(comment);
-//
-//        assertThat(commentService.updateAdsComment(adsPk, id, commentDto)).isEqualTo(commentDto);
+        Integer id = 1;
+        Integer adsPk = 3;
+
+        User user = new User();
+        user.setId(1);
+        user.setEmail("user@gmail.com");
+        user.setPhone("+78005553535");
+        user.setFirstName("First");
+        user.setLastName("Last");
+
+        Ads ads = new Ads();
+        ads.setId(1);
+        ads.setTitle("Пирог");
+        ads.setPrice(125);
+        ads.setDescription("Вкусный пирог");
+        ads.setUser(user);
+
+        Comment comment = new Comment();
+        comment.setAuthor(user);
+        comment.setAds(ads);
+        comment.setText("Очень вкусный пирог с яблоками");
+        comment.setCreatedAt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+
+        CommentDto commentDto = CommentMapper.INSTANCE.commentToCommentDto(comment);
+
+        Mockito.when(commentRepository.findByIdAndAdsId(id, adsPk)).thenReturn(Optional.of(comment));
+        Mockito.when(commentRepository.save(comment)).thenReturn(comment);
+
+        Authentication auth = Mockito.mock(Authentication.class);
+
+        assertThat(commentService.updateAdsComment(adsPk, id, commentDto, auth)).isEqualTo(commentDto);
 
     }
 
     @Test
     void deleteAdsComment() {
-//        Integer adsPk = 123;
-//        Integer id = 1;
-//
-//        commentService.deleteAdsComment(adsPk, id);
-//
-//        ArgumentCaptor<Integer> integerArgumentCaptor = ArgumentCaptor.forClass(Integer.class);
-//        ArgumentCaptor<Integer> argumentCaptor = ArgumentCaptor.forClass(Integer.class);
-//
-//        verify(commentRepository).deleteByIdAndAdsId(argumentCaptor.capture(),
-//                integerArgumentCaptor.capture());
-//
-//        Integer actual1 = argumentCaptor.getValue();
-//        Integer actual2 = integerArgumentCaptor.getValue();
-//
-//        assertThat(actual1).isEqualTo(id);
-//        assertThat(actual2).isEqualTo(adsPk);
+        Integer adsPk = 123;
+        Integer id = 1;
+
+        Authentication auth = Mockito.mock(Authentication.class);
+
+        User user = new User();
+        user.setId(1);
+        user.setEmail("user@gmail.com");
+        user.setPhone("+78005553535");
+        user.setFirstName("First");
+        user.setLastName("Last");
+
+        Ads ads = new Ads();
+        ads.setId(1);
+        ads.setTitle("Пирог");
+        ads.setPrice(125);
+        ads.setDescription("Вкусный пирог");
+        ads.setUser(user);
+
+        Comment comment = new Comment();
+        comment.setAuthor(user);
+        comment.setAds(ads);
+        comment.setText("Очень вкусный пирог с яблоками");
+        comment.setCreatedAt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+
+        Mockito.when(commentRepository.findByIdAndAdsId(id, adsPk)).thenReturn(Optional.of(comment));
+
+        ArgumentCaptor<Integer> argumentCaptor = ArgumentCaptor.forClass(Integer.class);
+        ArgumentCaptor<Integer> argumentCaptor1 = ArgumentCaptor.forClass(Integer.class);
+
+        Mockito.when(userService.checkPermission(auth, comment.getAuthor().getEmail())).thenReturn(true);
+
+        commentService.deleteAdsComment(adsPk, id, auth);
+
+        verify(commentRepository).deleteByIdAndAdsId(argumentCaptor.capture(),
+                argumentCaptor1.capture());
+
+        assertThat(argumentCaptor.getValue()).isEqualTo(id);
+        assertThat(argumentCaptor1.getValue()).isEqualTo(adsPk);
 
     }
 
